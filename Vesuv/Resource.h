@@ -1,30 +1,19 @@
 //{{NO_DEPENDENCIES}}
 // Von Microsoft Visual C++ generierte Includedatei.
-// Verwendet von Vesuv.rc
-
-#define IDS_APP_TITLE			103
-
-#define IDR_MAINFRAME			128
-#define IDD_VESUV_DIALOG	102
-#define IDD_ABOUTBOX			103
-#define IDM_ABOUT				104
-#define IDM_EXIT				105
-#define IDI_VESUV			107
-#define IDI_SMALL				108
-#define IDC_VESUV			109
-#define IDC_MYICON				2
-#ifndef IDC_STATIC
-#define IDC_STATIC				-1
-#endif
-// Nächste Standardwerte für neue Objekte
+// Verwendet durch Vesuv.rc
 //
+#define IDI_VESUV                       101
+#define IDS_APP_TITLE                   102
+#define IDS_APP_CLASS                   103
+
+// Next default values for new objects
+// 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-
-#define _APS_NO_MFC					130
-#define _APS_NEXT_RESOURCE_VALUE	129
-#define _APS_NEXT_COMMAND_VALUE		32771
-#define _APS_NEXT_CONTROL_VALUE		1000
-#define _APS_NEXT_SYMED_VALUE		110
+#define _APS_NO_MFC                     1
+#define _APS_NEXT_RESOURCE_VALUE        0x0068
+#define _APS_NEXT_COMMAND_VALUE         0x8000
+#define _APS_NEXT_CONTROL_VALUE         0x03e8
+#define _APS_NEXT_SYMED_VALUE           0x0068
 #endif
 #endif

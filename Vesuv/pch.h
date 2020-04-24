@@ -1,13 +1,27 @@
-// pch.h: Dies ist eine vorkompilierte Headerdatei.
-// Die unten aufgeführten Dateien werden nur einmal kompiliert, um die Buildleistung für zukünftige Builds zu verbessern.
-// Dies wirkt sich auch auf die IntelliSense-Leistung aus, Codevervollständigung und viele Features zum Durchsuchen von Code eingeschlossen.
-// Die hier aufgeführten Dateien werden jedoch ALLE neu kompiliert, wenn mindestens eine davon zwischen den Builds aktualisiert wird.
-// Fügen Sie hier keine Dateien hinzu, die häufig aktualisiert werden sollen, da sich so der Leistungsvorteil ins Gegenteil verkehrt.
+#pragma once
 
-#ifndef PCH_H
-#define PCH_H
+#define WIN32_LEAN_AND_MEAN             // Selten verwendete Komponenten aus Windows-Headern ausschließen
+#include <SDKDDKVer.h>
+#include <windows.h>
 
-// Fügen Sie hier Header hinzu, die vorkompiliert werden sollen.
-#include "framework.h"
+#include <algorithm>
+#include <iomanip>
+#include <iterator>
+#include <map>
+#include <numeric>
+#include <optional>
+#include <set>
+#include <sstream>
+#include <strsafe.h>
+#include <vector>
 
-#endif //PCH_H
+#define GLM_FORCE_CUDA
+#include <glm/glm.hpp>
+
+#include "vulkan/vulkan.h"
+#include "vulkan/vulkan_win32.h"
+
+#define ASSERT_VK_SUCCESS(val)\
+	if(val != VK_SUCCESS) {\
+		__debugbreak();\
+	}
