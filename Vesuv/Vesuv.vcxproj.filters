@@ -1,29 +1,85 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Assets">
+    <Filter Include="assets">
       <UniqueIdentifier>{88b8877b-f670-49e2-88a9-b7fffab594e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{c4d24c47-a3d9-4e20-8335-b9969374eb86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{79ee7e82-72e3-40b7-a11f-3c24ba35a0fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\windows">
+      <UniqueIdentifier>{cf059fd9-b146-4f37-8825-f23c01b51cf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\os">
+      <UniqueIdentifier>{312fb054-47b6-475f-bbce-9a14f73e3ff4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{4091761d-1bb1-4bdd-8a02-19700577bcfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="servers">
+      <UniqueIdentifier>{59862acd-d3ed-4081-8f80-ca72692b7336}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="Resource.h">
-      <Filter>Assets</Filter>
+    <ClInclude Include="resource.h">
+      <Filter>assets</Filter>
     </ClInclude>
-    <ClInclude Include="main.h" />
+    <ClInclude Include="core\os\os.h">
+      <Filter>core\os</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\windows\osWindows.h">
+      <Filter>platform\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="globals.h" />
+    <ClInclude Include="core\error.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="main\main.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="winMain.h" />
+    <ClInclude Include="servers\displayServer.h">
+      <Filter>servers</Filter>
+    </ClInclude>
+    <ClInclude Include="core\os\mainLoop.h">
+      <Filter>core\os</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\windows\displayServerWindows.h">
+      <Filter>platform\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pch.cpp" />
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="core\os\os.cpp">
+      <Filter>core\os</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\windows\osWindows.cpp">
+      <Filter>platform\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="main\main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="servers\displayServer.cpp">
+      <Filter>servers</Filter>
+    </ClCompile>
+    <ClCompile Include="core\os\mainLoop.cpp">
+      <Filter>core\os</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\windows\displayServerWindows.cpp">
+      <Filter>platform\windows</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Assets\Vesuv.ico">
-      <Filter>Assets</Filter>
+    <Image Include="assets\vesuv.ico">
+      <Filter>assets</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Vesuv.rc">
-      <Filter>Assets</Filter>
+      <Filter>assets</Filter>
     </ResourceCompile>
   </ItemGroup>
 </Project>

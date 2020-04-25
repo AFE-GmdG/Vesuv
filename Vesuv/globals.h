@@ -3,6 +3,7 @@
 #define WIN32_LEAN_AND_MEAN             // Selten verwendete Komponenten aus Windows-Headern ausschließen
 #include <SDKDDKVer.h>
 #include <windows.h>
+#include <Shlobj.h>
 
 #include <algorithm>
 #include <iomanip>
@@ -20,6 +21,8 @@
 
 #include "vulkan/vulkan.h"
 #include "vulkan/vulkan_win32.h"
+
+#include "core/error.h"
 
 #define ASSERT_VK_SUCCESS(val)\
 	if(val != VK_SUCCESS) {\
