@@ -1,7 +1,22 @@
 #include "displayServerWindows.h"
 
 
-DisplayServerWindows::DisplayServerWindows() {
+LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	DisplayServerWindows* displayServer = static_cast<DisplayServerWindows*>(DisplayServer::getSingleton());
+	if (displayServer) {
+		return displayServer->wndProc(hWnd, msg, wParam, lParam);
+	} else {
+		return DefWindowProcW(hWnd, msg, wParam, lParam);
+	}
+}
+
+
+DisplayServerWindows::DisplayServerWindows(WindowMode windowMode, uint32_t flags, Error& errorRef) {
+	UNREFERENCED_PARAMETER(windowMode);
+	UNREFERENCED_PARAMETER(flags);
+
+	consoleVisible = IsWindowVisible(GetConsoleWindow());
+	errorRef = Error::OK;
 }
 
 
@@ -10,16 +25,19 @@ DisplayServerWindows::~DisplayServerWindows() {
 
 
 DisplayServer* DisplayServerWindows::createDisplayServer(WindowMode windowMode, uint32_t flags, Error& errorRef) {
-	UNREFERENCED_PARAMETER(windowMode);
-	UNREFERENCED_PARAMETER(flags);
-	UNREFERENCED_PARAMETER(errorRef);
-
-	return nullptr;
+	return new DisplayServerWindows(windowMode, flags, errorRef);
 }
 
 
 void DisplayServerWindows::registerWindowsDriver() {
 	registerCreateFunction(createDisplayServer);
+}
+
+
+LRESULT DisplayServerWindows::wndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+
+
+	return DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
 

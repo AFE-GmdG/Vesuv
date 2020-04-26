@@ -19,6 +19,7 @@ public:
 
 private:
 	static DisplayServer* singleton;
+	const BaseLogger logger;
 
 
 protected:
@@ -33,6 +34,9 @@ public:
 
 	static void registerCreateFunction(CreateFunction createFunction);
 	static DisplayServer* create(WindowMode windowMode, uint32_t flags, Error& errorRef);
+
+	virtual bool isConsoleVisible() const;
+	virtual void setConsoleVisible(const bool visible);
 
 	virtual void processEvents() = 0;
 };

@@ -112,6 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="core\error.h" />
+    <ClInclude Include="core\logger.h" />
     <ClInclude Include="core\os\mainLoop.h" />
     <ClInclude Include="core\os\os.h" />
     <ClInclude Include="globals.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="winMain.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\logger.cpp" />
     <ClCompile Include="core\os\mainLoop.cpp" />
     <ClCompile Include="core\os\os.cpp" />
     <ClCompile Include="platform\windows\displayServerWindows.cpp" />

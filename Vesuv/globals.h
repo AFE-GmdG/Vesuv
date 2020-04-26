@@ -23,6 +23,7 @@
 #include "vulkan/vulkan_win32.h"
 
 #include "core/error.h"
+#include "core/logger.h"
 
 #define ASSERT_VK_SUCCESS(val)\
 	if(val != VK_SUCCESS) {\
