@@ -24,6 +24,7 @@
 
 #include "core/error.h"
 #include "core/logger.h"
+#include "core/bitmaskOperator.h"
 
 #define ASSERT_VK_SUCCESS(val)\
 	if(val != VK_SUCCESS) {\

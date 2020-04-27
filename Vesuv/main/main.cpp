@@ -15,7 +15,7 @@ static DisplayServer* displayServer;
 
 // Display
 static DisplayServer::WindowMode windowMode = DisplayServer::WindowMode::WINDOWED;
-static uint32_t windowFlags = 0;
+static DisplayServer::WindowFlags windowFlags = DisplayServer::WindowFlags::NO_FLAG;
 
 
 /* Engine initialization
@@ -42,7 +42,7 @@ Error Main::setup2() {
 	Error err;
 	displayServer = DisplayServer::create(windowMode, windowFlags, err);
 
-	return err;
+  return err;
 }
 
 

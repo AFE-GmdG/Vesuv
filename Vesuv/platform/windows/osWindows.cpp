@@ -4,8 +4,15 @@
 #include "displayServerWindows.h"
 
 
-OS_Windows::OS_Windows(HINSTANCE hInstance)
-	: hInstance(hInstance), hMainWindow(nullptr), ticksPerSecond(), ticksStart(), mainLoop(nullptr), forceQuit(false) {
+OS_Windows::OS_Windows(const std::wstring& executable, const std::vector<std::wstring>& parameter, const int nCmdShow, const HINSTANCE hInstance)
+	: OS(executable, parameter),
+	nCmdShow(nCmdShow),
+	hInstance(hInstance),
+	hMainWindow(nullptr),
+	ticksPerSecond(),
+	ticksStart(),
+	mainLoop(nullptr),
+	forceQuit(false) {
 
 	DisplayServerWindows::registerWindowsDriver();
 }
@@ -65,4 +72,14 @@ void OS_Windows::run() {
 	};
 
 	mainLoop->finish();
+}
+
+
+const int OS_Windows::getCmdShow() const {
+	return nCmdShow;
+}
+
+
+HINSTANCE OS_Windows::getHInstance() const {
+	return hInstance;
 }

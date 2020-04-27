@@ -10,7 +10,7 @@ class DisplayServerWindows
 private:
 	struct WindowData
 	{
-		HWND hWnd;
+		HWND hWnd = nullptr;
 		bool minimized = false;
 		bool maximized = false;
 		bool fullscreen = false;
@@ -20,17 +20,25 @@ private:
 
 
 private:
-	bool consoleVisible = false;
+	const BaseLogger logger;
+	HINSTANCE hInstance;
 
+	WindowID windowIdCounter;
+	std::map<WindowID, WindowData> windows;
 
 public:
-	DisplayServerWindows(WindowMode windowMode, uint32_t flags, Error& errorRef);
+	DisplayServerWindows(WindowMode windowMode, WindowFlags flags, Error& errorRef);
 	virtual ~DisplayServerWindows();
 
-	static DisplayServer* createDisplayServer(WindowMode windowMode, uint32_t flags, Error& errorRef);
+	static DisplayServer* createDisplayServer(WindowMode windowMode, WindowFlags flags, Error& errorRef);
 	static void registerWindowsDriver();
 
-	LRESULT wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
+private:
+	WindowID createWindow(WindowMode windowMode, WindowFlags flags);
+	void getWindowStyle(bool isMainWindow, bool isFullscreen, bool isBorderless, bool isResizable, bool isMaximized, bool noActivateFocus, DWORD& dwStyleRef, DWORD& dwExStyleRef);
+
+public:
+	LRESULT wndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 	virtual void processEvents();
 };

@@ -19,9 +19,11 @@ public:
 private:
 	static OS* singleton;
 
+	const std::wstring executable;
+	const std::vector<std::wstring> parameter;
 
 public:
-	OS();
+	OS(const std::wstring& executable, const std::vector<std::wstring>& parameter);
 	virtual ~OS();
 
 	static OS* getSingleton();

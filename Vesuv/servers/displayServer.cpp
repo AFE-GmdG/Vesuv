@@ -28,16 +28,6 @@ void DisplayServer::registerCreateFunction(CreateFunction createDisplayServer) {
 }
 
 
-DisplayServer* DisplayServer::create(WindowMode windowMode, uint32_t flags, Error& errorRef) {
+DisplayServer* DisplayServer::create(WindowMode windowMode, WindowFlags flags, Error& errorRef) {
 	return createFunction(windowMode, flags, errorRef);
-}
-
-
-bool DisplayServer::isConsoleVisible() const {
-	return false;
-}
-void DisplayServer::setConsoleVisible(const bool visible) {
-	UNREFERENCED_PARAMETER(visible);
-
-	logger.warn(L"Console Window not supported by this display driver.");
 }

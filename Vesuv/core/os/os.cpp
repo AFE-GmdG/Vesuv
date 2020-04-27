@@ -4,7 +4,8 @@
 OS* OS::singleton = nullptr;
 
 
-OS::OS() {
+OS::OS(const std::wstring& executable, const std::vector<std::wstring>& parameter)
+	: executable(executable), parameter(parameter) {
 	assert(singleton == nullptr);
 
 	singleton = this;

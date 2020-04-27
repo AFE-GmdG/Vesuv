@@ -111,6 +111,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="core\bitmaskOperator.h" />
     <ClInclude Include="core\error.h" />
     <ClInclude Include="core\logger.h" />
     <ClInclude Include="core\os\mainLoop.h" />
