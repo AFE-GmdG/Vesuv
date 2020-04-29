@@ -6,6 +6,7 @@
 #include <Shlobj.h>
 
 #include <algorithm>
+#include <functional>
 #include <iomanip>
 #include <iterator>
 #include <map>

@@ -1,6 +1,8 @@
 #include "main.h"
-
 #include "../servers/displayServer.h"
+#include "mainTimerSync.h"
+#include "../core/os/mainLoop.h"
+#include "../scene/main/sceneTree.h"
 
 
 // Initialized in setup()
@@ -10,7 +12,17 @@
 static DisplayServer* displayServer;
 
 
+// Initialized in start()
+// Everything the main loop needs to know about frame timings
+static MainTimerSync mainTimerSync;
+
+
 // Drivers
+
+
+// Engine config/tools
+static bool editor = false;
+static bool project_manager = false;
 
 
 // Display
@@ -41,10 +53,13 @@ Error Main::setup2() {
 	// Initialize DisplayServer
 	Error err;
 	displayServer = DisplayServer::create(windowMode, windowFlags, err);
+  if (!displayServer) {
+    // logger.error(L"Unable to create DisplayServer.");
+    return err;
+  }
 
-  return err;
+  return Error::OK;
 }
-
 
 /* Engine startup
  *
@@ -52,7 +67,14 @@ Error Main::setup2() {
  * can be created eventually and the project settings put into action.
  */
 bool Main::start() {
-	return true;
+  mainTimerSync.init(OS::getSingleton()->getTicksUsec());
+
+  MainLoop* mainLoop = nullptr;
+  if (editor) {
+    mainLoop = new SceneTree();
+  }
+
+  return true;
 }
 
 

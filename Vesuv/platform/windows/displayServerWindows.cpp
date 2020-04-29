@@ -58,13 +58,17 @@ DisplayServerWindows::DisplayServerWindows(WindowMode windowMode, WindowFlags fl
 	// Todo: Create Vulkan Context
 
 	// Create Main Window
+	OS_Windows* osWindows = static_cast<OS_Windows*>(OS::getSingleton());
 	DisplayServer::WindowID mainWindowId = createWindow(windowMode, flags);
 	HWND hMainWindow = windows[mainWindowId].hWnd;
-	ShowWindow(hMainWindow, static_cast<OS_Windows*>(OS::getSingleton())->getCmdShow());
+	ShowWindow(hMainWindow, osWindows->getCmdShow());
 	SetForegroundWindow(hMainWindow);
 	SetFocus(hMainWindow);
 
 	// Todo: Create Vulkan Rendering Device
+
+	osWindows->setMainWindow(windows[DisplayServer::MAIN_WINDOW_ID].hWnd);
+
 	//errorRef = Error::ERR_NYI;
 }
 

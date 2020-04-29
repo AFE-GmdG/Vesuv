@@ -29,6 +29,16 @@ void OS_Windows::initialize() {
 }
 
 
+LARGE_INTEGER OS_Windows::getTicksUsec() const {
+	LARGE_INTEGER ticks;
+	LARGE_INTEGER time;
+	QueryPerformanceCounter(&ticks);
+	time.QuadPart = ticks.QuadPart * 1000000L / ticksPerSecond.QuadPart;
+	time.QuadPart -= ticksStart.QuadPart;
+	return time;
+}
+
+
 std::wstring OS_Windows::getSystemDir(SystemDir directory) const {
 	KNOWNFOLDERID id = FOLDERID_Public;
 
@@ -82,4 +92,9 @@ const int OS_Windows::getCmdShow() const {
 
 HINSTANCE OS_Windows::getHInstance() const {
 	return hInstance;
+}
+
+
+void OS_Windows::setMainWindow(HWND hWnd) {
+	hMainWindow = hWnd;
 }

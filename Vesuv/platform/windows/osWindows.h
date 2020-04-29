@@ -1,7 +1,7 @@
 #pragma once
 #include "../../globals.h"
 #include "../../core/os/os.h"
-
+#include "../../core/os/mainLoop.h"
 
 class OS_Windows
 	: public OS
@@ -24,10 +24,14 @@ public:
 	virtual ~OS_Windows();
 
 	virtual void initialize();
+	virtual LARGE_INTEGER getTicksUsec() const;
+
 	virtual std::wstring getSystemDir(SystemDir directory) const;
 
 	void run();
 
 	const int getCmdShow() const;
 	HINSTANCE getHInstance() const;
+
+	void setMainWindow(HWND hMainWindow);
 };

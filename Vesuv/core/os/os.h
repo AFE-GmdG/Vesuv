@@ -1,6 +1,5 @@
 #pragma once
 #include "../../globals.h"
-#include "mainLoop.h"
 
 
 class OS
@@ -29,6 +28,7 @@ public:
 	static OS* getSingleton();
 
 	virtual void initialize() = 0;
-	virtual std::wstring getSystemDir(SystemDir directory) const;
+	virtual LARGE_INTEGER getTicksUsec() const = 0;
 
+	virtual std::wstring getSystemDir(SystemDir directory) const;
 };

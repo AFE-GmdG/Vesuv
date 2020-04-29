@@ -118,9 +118,11 @@
     <ClInclude Include="core\os\os.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="main\main.h" />
+    <ClInclude Include="main\mainTimerSync.h" />
     <ClInclude Include="platform\windows\displayServerWindows.h" />
     <ClInclude Include="platform\windows\osWindows.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="scene\main\sceneTree.h" />
     <ClInclude Include="servers\displayServer.h" />
     <ClInclude Include="winMain.h" />
   </ItemGroup>
@@ -128,7 +130,9 @@
     <ClCompile Include="core\logger.cpp" />
     <ClCompile Include="core\os\mainLoop.cpp" />
     <ClCompile Include="core\os\os.cpp" />
+    <ClCompile Include="main\mainTimerSync.cpp" />
     <ClCompile Include="platform\windows\displayServerWindows.cpp" />
+    <ClCompile Include="scene\main\sceneTree.cpp" />
     <ClCompile Include="servers\displayServer.cpp" />
     <ClCompile Include="winMain.cpp" />
     <ClCompile Include="main\main.cpp" />
