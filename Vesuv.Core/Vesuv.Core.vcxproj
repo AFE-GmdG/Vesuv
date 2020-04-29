@@ -12,7 +12,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
-    <ProjectGuid>{9D5E7D58-1D82-4CAB-95AD-6026D00A6B7B}</ProjectGuid>
+    <ProjectGuid>{A3C890DE-C1BA-47A3-B351-CA579576F408}</ProjectGuid>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <Keyword>ManagedCProj</Keyword>
     <RootNamespace>Vesuv</RootNamespace>
@@ -20,7 +20,7 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CLRSupport>true</CLRSupport>
@@ -28,7 +28,7 @@
     <PreferredToolArchitecture>x64</PreferredToolArchitecture>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,8 +71,6 @@
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(VK_SDK_PATH)\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
@@ -94,8 +92,6 @@
       <AdditionalOptions>/Zc:twoPhase- %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(VK_SDK_PATH)\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <OptimizeReferences>true</OptimizeReferences>
@@ -107,38 +103,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="core\bitmaskOperator.h" />
-    <ClInclude Include="core\error.h" />
-    <ClInclude Include="core\logger.h" />
-    <ClInclude Include="core\os\mainLoop.h" />
-    <ClInclude Include="core\os\os.h" />
-    <ClInclude Include="globals.h" />
-    <ClInclude Include="main\main.h" />
-    <ClInclude Include="main\mainTimerSync.h" />
-    <ClInclude Include="platform\windows\displayServerWindows.h" />
-    <ClInclude Include="platform\windows\osWindows.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="scene\main\sceneTree.h" />
-    <ClInclude Include="servers\displayServer.h" />
-    <ClInclude Include="winMain.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="core\logger.cpp" />
-    <ClCompile Include="core\os\mainLoop.cpp" />
-    <ClCompile Include="core\os\os.cpp" />
-    <ClCompile Include="main\mainTimerSync.cpp" />
-    <ClCompile Include="platform\windows\displayServerWindows.cpp" />
-    <ClCompile Include="scene\main\sceneTree.cpp" />
-    <ClCompile Include="servers\displayServer.cpp" />
-    <ClCompile Include="winMain.cpp" />
-    <ClCompile Include="main\main.cpp" />
-    <ClCompile Include="platform\windows\osWindows.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Vesuv.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="assets\vesuv.ico" />
+    <ClCompile Include="AssemblyInfo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

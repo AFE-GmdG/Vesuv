@@ -56,7 +56,7 @@ std::wstring OS_Windows::getSystemDir(SystemDir directory) const {
 		break;
 	}
 
-	PWSTR buffer;
+	PWSTR buffer = nullptr;
 	assert(S_OK == SHGetKnownFolderPath(id, KF_FLAG_DEFAULT, NULL, &buffer));
 	const std::wstring path(buffer);
 	CoTaskMemFree(buffer);
