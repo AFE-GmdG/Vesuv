@@ -51,6 +51,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
@@ -104,11 +105,32 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
+    <ClCompile Include="core\coreObject.cpp" />
+    <ClCompile Include="core\error.cpp" />
+    <ClCompile Include="core\logger.cpp" />
+    <ClCompile Include="core\os\mainLoop.cpp" />
+    <ClCompile Include="core\os\os.cpp" />
+    <ClCompile Include="scene\main\sceneTree.cpp" />
+    <ClCompile Include="server\displayServer.cpp" />
+    <ClCompile Include="server\windowFlags.cpp" />
+    <ClCompile Include="server\windowMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\coreObject.h" />
+    <ClInclude Include="core\error.h" />
+    <ClInclude Include="core\logger.h" />
+    <ClInclude Include="core\os\mainLoop.h" />
+    <ClInclude Include="core\os\os.h" />
+    <ClInclude Include="core\os\systemDir.h" />
+    <ClInclude Include="scene\main\sceneTree.h" />
+    <ClInclude Include="server\displayServer.h" />
+    <ClInclude Include="server\windowFlags.h" />
+    <ClInclude Include="server\windowMode.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

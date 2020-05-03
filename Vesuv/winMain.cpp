@@ -1,36 +1,78 @@
-#include "winMain.h"
-#include "shellapi.h"
+#define WIN32_LEAN_AND_MEAN // Selten verwendete Komponenten aus Windows-Headern ausschlieﬂen
+#include <SDKDDKVer.h>
+#include <Windows.h>
+#include <locale.h>
+#include <shellapi.h>
+#include <msclr/marshal.h>
 
+#include <memory>
 
-std::tuple<std::wstring, std::vector<std::wstring>> preprocessCommandLine() {
-	int argc;
-	LPCWSTR cmdLine = GetCommandLineW();
-	DWORD expandedCmdLineSize = ExpandEnvironmentStringsW(cmdLine, nullptr, 0);
-	std::unique_ptr<WCHAR[]> expandedCmdLine = std::make_unique<WCHAR[]>(expandedCmdLineSize);
-	assert(expandedCmdLineSize == ExpandEnvironmentStringsW(cmdLine, expandedCmdLine.get(), expandedCmdLineSize));
-	std::unique_ptr<LPWSTR, decltype(&LocalFree)> argsPtr(CommandLineToArgvW(expandedCmdLine.get(), &argc), &LocalFree);
-	LPWSTR* args = argsPtr.get();
-	return {args[0], std::vector<std::wstring>(args + 1, args + argc)};
-}
+#include "resource.h"
+#include "main/main.h"
+#include "platform/windows/osWindows.h"
 
+using namespace msclr::interop;
+using namespace System;
+using namespace System::Reflection;
+using namespace Vesuv::Core;
+using namespace Vesuv::Platform::Windows;
 
-int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPWSTR lpCmdLine, _In_ int nCmdShow) {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
+namespace Vesuv {
 
-	auto [executable, parameter] = preprocessCommandLine();
-	OS_Windows os(executable, parameter, nCmdShow, hInstance);
+	value struct CommandLineArgs
+	{
+		String^ executable;
+		array<String^>^ parameter;
+	};
 
-	Error err = Main::setup();
-	if (err != Error::OK) {
-		return static_cast<int>(err);
+	CommandLineArgs PreprocessCommandLine() {
+		int argc;
+		LPCWSTR cmdLine = GetCommandLineW();
+		DWORD expandedCmdLineSize = ExpandEnvironmentStringsW(cmdLine, nullptr, 0);
+		std::unique_ptr<WCHAR[]> expandedCmdLine = std::make_unique<WCHAR[]>(expandedCmdLineSize);
+		ExpandEnvironmentStringsW(cmdLine, expandedCmdLine.get(), expandedCmdLineSize);
+		std::unique_ptr<LPWSTR, decltype(&LocalFree)> argsPtr(CommandLineToArgvW(expandedCmdLine.get(), &argc), &LocalFree);
+		LPWSTR* args = argsPtr.get();
+		String^ executable = marshal_as<String^>(args[0]);
+		array<String^>^ parameter = gcnew array<String^>(argc - 1);
+		for (int i = 0; i < argc - 1; ++i) {
+			parameter[i] = marshal_as<String^>(args[i + 1]);
+		}
+		return {executable, parameter};
 	}
 
-	if (Main::start()) {
-		os.run();
+	[STAThread]
+	int main() {
+		setlocale(LC_ALL, "en-US");
+		auto [executable, parameter] = PreprocessCommandLine();
+
+		Logger^ logger = Logger::GetFor("Main");
+		try {
+			HINSTANCE hInstance = GetModuleHandleW(nullptr);
+
+			Assembly^ executingAssembly = Assembly::GetExecutingAssembly();
+			AssemblyDescriptionAttribute^ description = dynamic_cast<AssemblyDescriptionAttribute ^>(Attribute::GetCustomAttribute(executingAssembly, AssemblyDescriptionAttribute::typeid));
+			AssemblyFileVersionAttribute^ fileVersion = dynamic_cast<AssemblyFileVersionAttribute ^>(Attribute::GetCustomAttribute(executingAssembly, AssemblyFileVersionAttribute::typeid));
+
+			logger->Log(String::Format("{0} Version {1}", description->Description, fileVersion->Version));
+
+			OS_Windows os(hInstance, executable, parameter);
+
+			Error error = Vesuv::Main::Main::setup();
+			if (error != Error::Ok) {
+				return static_cast<int>(error);
+			}
+
+			if (Vesuv::Main::Main::start()) {
+				os.run();
+			}
+
+			//	Main::cleanup();
+
+			return os.GetExitCode();
+		} finally {
+			delete logger;
+		}
 	}
 
-	Main::cleanup();
-
-	return 0;
 }

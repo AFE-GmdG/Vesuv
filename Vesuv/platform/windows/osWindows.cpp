@@ -1,100 +1,158 @@
 #include "osWindows.h"
-
-#include "../../main/main.h"
-#include "displayServerWindows.h"
+#include "../../globals.h"
 
 
-OS_Windows::OS_Windows(const std::wstring& executable, const std::vector<std::wstring>& parameter, const int nCmdShow, const HINSTANCE hInstance)
-	: OS(executable, parameter),
-	nCmdShow(nCmdShow),
-	hInstance(hInstance),
-	hMainWindow(nullptr),
-	ticksPerSecond(),
-	ticksStart(),
-	mainLoop(nullptr),
-	forceQuit(false) {
+namespace Vesuv::Platform::Windows {
 
-	DisplayServerWindows::registerWindowsDriver();
-}
+	using namespace System;
+	using namespace Vesuv::Core;
+	using namespace Vesuv::Core::OS;
 
-
-OS_Windows::~OS_Windows() {}
-
-
-void OS_Windows::initialize() {
-	QueryPerformanceFrequency(&ticksPerSecond);
-	LARGE_INTEGER ticks;
-	QueryPerformanceCounter(&ticks);
-	ticksStart.QuadPart = ticks.QuadPart * 1000000L / ticksPerSecond.QuadPart;
-}
-
-
-LARGE_INTEGER OS_Windows::getTicksUsec() const {
-	LARGE_INTEGER ticks;
-	LARGE_INTEGER time;
-	QueryPerformanceCounter(&ticks);
-	time.QuadPart = ticks.QuadPart * 1000000L / ticksPerSecond.QuadPart;
-	time.QuadPart -= ticksStart.QuadPart;
-	return time;
-}
-
-
-std::wstring OS_Windows::getSystemDir(SystemDir directory) const {
-	KNOWNFOLDERID id = FOLDERID_Public;
-
-	switch (directory) {
-	case OS::SystemDir::PUBLIC:
-		break;
-	case OS::SystemDir::DESKTOP:
-		id = FOLDERID_Desktop;
-		break;
-	case OS::SystemDir::DOCUMENTS:
-		id = FOLDERID_Documents;
-		break;
-	case OS::SystemDir::DOWNLOADS:
-		id = FOLDERID_Downloads;
-		break;
+	OS_Windows::OS_Windows(HINSTANCE hInstance, String^& executable, array<String^>^& parameter)
+		: OS(executable, parameter),
+		hInstance(hInstance),
+		logger(Logger::GetFor()),
+		ticksPerSecond(0),
+		ticksStart(0) {
+		logger->Log("Initialize OS_Windows.");
 	}
 
-	PWSTR buffer = nullptr;
-	assert(S_OK == SHGetKnownFolderPath(id, KF_FLAG_DEFAULT, NULL, &buffer));
-	const std::wstring path(buffer);
-	CoTaskMemFree(buffer);
 
-	return path;
-}
-
-
-void OS_Windows::run() {
-	if (!mainLoop) {
-		return;
-	}
-
-	mainLoop->init();
-
-	DisplayServer* displayServer = DisplayServer::getSingleton();
-
-	while (!forceQuit) {
-		displayServer->processEvents();
-		if (Main::interaction()) {
-			break;
+	OS_Windows::~OS_Windows() {
+		if (logger) {
+			logger->Log("Destroy OS_Windows.");
+			delete logger;
 		}
-	};
+	}
 
-	mainLoop->finish();
+
+	void OS_Windows::initialize() {
+		pin_ptr<UInt64> pTicksPerSecond = &ticksPerSecond;
+		QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(pTicksPerSecond));
+
+		LARGE_INTEGER ticks;
+		QueryPerformanceCounter(&ticks);
+		ticksStart = ticks.QuadPart * 1000000L / ticksPerSecond;
+	}
+
+
+	UInt64 OS_Windows::getTicksUsec() {
+		LARGE_INTEGER ticks;
+		UInt64 time;
+		QueryPerformanceCounter(&ticks);
+		time = (ticks.QuadPart * 1000000L / ticksPerSecond) - ticksStart;
+		return time;
+	}
+
+
+	int OS_Windows::GetProcessorCount() {
+		SYSTEM_INFO systemInfo;
+		GetSystemInfo(&systemInfo);
+		return systemInfo.dwNumberOfProcessors;
+	}
+
+
+	void OS_Windows::run() {}
+
 }
 
 
-const int OS_Windows::getCmdShow() const {
-	return nCmdShow;
-}
 
-
-HINSTANCE OS_Windows::getHInstance() const {
-	return hInstance;
-}
-
-
-void OS_Windows::setMainWindow(HWND hWnd) {
-	hMainWindow = hWnd;
-}
+//#include "../../main/main.h"
+//#include "displayServerWindows.h"
+//
+//
+//OS_Windows::OS_Windows(const std::wstring& executable, const std::vector<std::wstring>& parameter, const int nCmdShow, const HINSTANCE hInstance)
+//	: OS(executable, parameter),
+//	nCmdShow(nCmdShow),
+//	hInstance(hInstance),
+//	hMainWindow(nullptr),
+//	ticksPerSecond(),
+//	ticksStart(),
+//	//mainLoop(nullptr),
+//	forceQuit(false) {
+//
+//	DisplayServerWindows::registerWindowsDriver();
+//}
+//
+//
+//OS_Windows::~OS_Windows() {}
+//
+//
+//void OS_Windows::initialize() {
+//	QueryPerformanceFrequency(&ticksPerSecond);
+//	LARGE_INTEGER ticks;
+//	QueryPerformanceCounter(&ticks);
+//	ticksStart.QuadPart = ticks.QuadPart * 1000000L / ticksPerSecond.QuadPart;
+//}
+//
+//
+//LARGE_INTEGER OS_Windows::getTicksUsec() const {
+//	LARGE_INTEGER ticks;
+//	LARGE_INTEGER time;
+//	QueryPerformanceCounter(&ticks);
+//	time.QuadPart = ticks.QuadPart * 1000000L / ticksPerSecond.QuadPart;
+//	time.QuadPart -= ticksStart.QuadPart;
+//	return time;
+//}
+//
+//
+//std::wstring OS_Windows::getSystemDir(SystemDir directory) const {
+//	KNOWNFOLDERID id = FOLDERID_Public;
+//
+//	switch (directory) {
+//	case OS::SystemDir::PUBLIC:
+//		break;
+//	case OS::SystemDir::DESKTOP:
+//		id = FOLDERID_Desktop;
+//		break;
+//	case OS::SystemDir::DOCUMENTS:
+//		id = FOLDERID_Documents;
+//		break;
+//	case OS::SystemDir::DOWNLOADS:
+//		id = FOLDERID_Downloads;
+//		break;
+//	}
+//
+//	PWSTR buffer = nullptr;
+//	assert(S_OK == SHGetKnownFolderPath(id, KF_FLAG_DEFAULT, NULL, &buffer));
+//	const std::wstring path(buffer);
+//	CoTaskMemFree(buffer);
+//
+//	return path;
+//}
+//
+//
+//void OS_Windows::run() {
+//	//if (!mainLoop) {
+//	//	return;
+//	//}
+//
+//	//mainLoop->init();
+//
+//	DisplayServer* displayServer = DisplayServer::getSingleton();
+//
+//	while (!forceQuit) {
+//		displayServer->processEvents();
+//		if (Vesuv::Main::Main::interaction()) {
+//			break;
+//		}
+//	};
+//
+//	//mainLoop->finish();
+//}
+//
+//
+//const int OS_Windows::getCmdShow() const {
+//	return nCmdShow;
+//}
+//
+//
+//HINSTANCE OS_Windows::getHInstance() const {
+//	return hInstance;
+//}
+//
+//
+//void OS_Windows::setMainWindow(HWND hWnd) {
+//	hMainWindow = hWnd;
+//}

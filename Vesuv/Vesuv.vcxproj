@@ -51,6 +51,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
+    <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
@@ -75,6 +76,7 @@
       <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
       <AdditionalDependencies>vulkan-1.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(VK_SDK_PATH)\Lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <EntryPointSymbol>Vesuv::main</EntryPointSymbol>
     </Link>
     <ResourceCompile>
       <Culture>0x0407</Culture>
@@ -101,37 +103,22 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <LinkTimeCodeGeneration>UseFastLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+      <EntryPointSymbol>Vesuv::main</EntryPointSymbol>
     </Link>
     <ResourceCompile>
       <Culture>0x0407</Culture>
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="core\bitmaskOperator.h" />
-    <ClInclude Include="core\error.h" />
-    <ClInclude Include="core\logger.h" />
-    <ClInclude Include="core\os\mainLoop.h" />
-    <ClInclude Include="core\os\os.h" />
     <ClInclude Include="globals.h" />
     <ClInclude Include="main\main.h" />
-    <ClInclude Include="main\mainTimerSync.h" />
-    <ClInclude Include="platform\windows\displayServerWindows.h" />
     <ClInclude Include="platform\windows\osWindows.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="scene\main\sceneTree.h" />
-    <ClInclude Include="servers\displayServer.h" />
-    <ClInclude Include="winMain.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="core\logger.cpp" />
-    <ClCompile Include="core\os\mainLoop.cpp" />
-    <ClCompile Include="core\os\os.cpp" />
-    <ClCompile Include="main\mainTimerSync.cpp" />
-    <ClCompile Include="platform\windows\displayServerWindows.cpp" />
-    <ClCompile Include="scene\main\sceneTree.cpp" />
-    <ClCompile Include="servers\displayServer.cpp" />
-    <ClCompile Include="winMain.cpp" />
+    <ClCompile Include="AssemblyInfo.cpp" />
     <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="winMain.cpp" />
     <ClCompile Include="platform\windows\osWindows.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +131,14 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TestProject\TestProject.csproj">
+      <Project>{9a69ee7c-f6f7-4953-bf7a-9e5f8c0cddff}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Vesuv.Core\Vesuv.Core.vcxproj">
+      <Project>{a3c890de-c1ba-47a3-b351-ca579576f408}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

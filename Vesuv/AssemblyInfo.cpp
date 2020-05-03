@@ -2,8 +2,8 @@ using namespace System;
 using namespace System::Reflection;
 using namespace System::Runtime::InteropServices;
 
-[assembly:AssemblyTitleAttribute(L"Vesuv.Core")];
-[assembly:AssemblyDescriptionAttribute(L"Vesuv Core Library")];
+[assembly:AssemblyTitleAttribute(L"Vesuv")];
+[assembly:AssemblyDescriptionAttribute(L"Vesuv Game Engine")];
 [assembly:AssemblyConfigurationAttribute(L"")];
 [assembly:AssemblyCompanyAttribute(L"AFE-GmdG")];
 [assembly:AssemblyProductAttribute(L"Vesuv")];
@@ -13,7 +13,7 @@ using namespace System::Runtime::InteropServices;
 
 [assembly:ComVisible(false)];
 [assembly:CLSCompliantAttribute(true)];
-[assembly:GuidAttribute("01dc3e45-566a-432b-9b9f-fe50ff923c80")];
+[assembly:GuidAttribute("f5ec8b4a-c346-4acd-b145-6299b943dc9a")];
 
 [assembly:AssemblyVersionAttribute("1.0.0.0")];
 [assembly:AssemblyFileVersionAttribute("1.0.0.0")];

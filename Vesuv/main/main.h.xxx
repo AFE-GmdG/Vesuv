@@ -1,0 +1,22 @@
+#pragma once
+#include "../globals.h"
+#include "../core/os/os.h"
+
+
+namespace Vesuv::Main {
+
+	class Main
+	{
+
+	public:
+		static Error setup();
+		static Error setup2();
+		static bool start();
+
+		static bool interaction();
+
+		static void cleanup();
+
+	};
+
+};

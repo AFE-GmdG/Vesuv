@@ -1,14 +1,76 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Ressourcendateien">
+    <Filter Include="core">
+      <UniqueIdentifier>{eb0ac834-61ca-43f1-a45e-75d37e3ec59a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\os">
+      <UniqueIdentifier>{3c66ed26-dfc1-4710-bb01-089a1cd53b0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scene">
+      <UniqueIdentifier>{6d36e05c-e5a1-4238-8c13-322ea7f62c49}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="scene\main">
+      <UniqueIdentifier>{7ebb1674-6e81-4971-9dab-3ce1e2bd2fe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="assets">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="server">
+      <UniqueIdentifier>{e70d90f3-a3ee-4b43-bfcc-c8970722958a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
-      <Filter>Ressourcendateien</Filter>
+      <Filter>assets</Filter>
     </ClCompile>
+    <ClCompile Include="core\os\mainLoop.cpp">
+      <Filter>core\os</Filter>
+    </ClCompile>
+    <ClCompile Include="scene\main\sceneTree.cpp">
+      <Filter>scene\main</Filter>
+    </ClCompile>
+    <ClCompile Include="core\os\os.cpp">
+      <Filter>core\os</Filter>
+    </ClCompile>
+    <ClCompile Include="core\error.cpp">
+      <Filter>core</Filter>
+    </ClCompile>
+    <ClCompile Include="server\windowFlags.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="server\windowMode.cpp">
+      <Filter>server</Filter>
+    </ClCompile>
+    <ClCompile Include="core\coreObject.cpp" />
+    <ClCompile Include="server\displayServer.cpp" />
+    <ClCompile Include="core\logger.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="core\os\mainLoop.h">
+      <Filter>core\os</Filter>
+    </ClInclude>
+    <ClInclude Include="scene\main\sceneTree.h">
+      <Filter>scene\main</Filter>
+    </ClInclude>
+    <ClInclude Include="core\os\os.h">
+      <Filter>core\os</Filter>
+    </ClInclude>
+    <ClInclude Include="core\os\systemDir.h">
+      <Filter>core\os</Filter>
+    </ClInclude>
+    <ClInclude Include="core\error.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="server\windowFlags.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="server\windowMode.h">
+      <Filter>server</Filter>
+    </ClInclude>
+    <ClInclude Include="core\coreObject.h" />
+    <ClInclude Include="server\displayServer.h" />
+    <ClInclude Include="core\logger.h" />
   </ItemGroup>
 </Project>
