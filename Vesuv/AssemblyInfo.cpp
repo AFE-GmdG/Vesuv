@@ -12,7 +12,7 @@ using namespace System::Runtime::InteropServices;
 [assembly:AssemblyCultureAttribute(L"")];
 
 [assembly:ComVisible(false)];
-[assembly:CLSCompliantAttribute(true)];
+[assembly:CLSCompliantAttribute(false)];
 [assembly:GuidAttribute("f5ec8b4a-c346-4acd-b145-6299b943dc9a")];
 
 [assembly:AssemblyVersionAttribute("1.0.0.0")];

@@ -136,8 +136,11 @@
     <ProjectReference Include="..\TestProject\TestProject.csproj">
       <Project>{9a69ee7c-f6f7-4953-bf7a-9e5f8c0cddff}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\Vesuv.Core\Vesuv.Core.vcxproj">
+    <ProjectReference Include="..\Vesuv.Core.Cpp\Vesuv.Core.Cpp.vcxproj">
       <Project>{a3c890de-c1ba-47a3-b351-ca579576f408}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Vesuv.Core\Vesuv.Core.csproj">
+      <Project>{74a7e68f-1093-42c6-8b2d-6eaee1c9340d}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

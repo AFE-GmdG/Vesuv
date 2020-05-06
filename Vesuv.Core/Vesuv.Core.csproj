@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{78491550-3C93-419C-8E82-2098845598D1}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <ProjectGuid>{74A7E68F-1093-42C6-8B2D-6EAEE1C9340D}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestCS</RootNamespace>
-    <AssemblyName>TestCS</AssemblyName>
+    <RootNamespace>Vesuv</RootNamespace>
+    <AssemblyName>Vesuv.Core</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -32,26 +32,29 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App.cs" />
+    <Compile Include="Core\Error.cs" />
+    <Compile Include="Core\CoreObject.cs" />
+    <Compile Include="Core\Logger.cs" />
+    <Compile Include="Core\LogLevel.cs" />
+    <Compile Include="Core\OS\MainLoop.cs" />
+    <Compile Include="Core\OS\OS.cs" />
+    <Compile Include="Core\OS\SystemDir.cs" />
+    <Compile Include="Core\ProjectSettings.cs" />
+    <Compile Include="Core\VesuvException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Vesuv.Core\Vesuv.Core.csproj">
-      <Project>{74a7e68f-1093-42c6-8b2d-6eaee1c9340d}</Project>
-      <Name>Vesuv.Core</Name>
-    </ProjectReference>
+    <Folder Include="Scene\" />
+    <Folder Include="Server\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

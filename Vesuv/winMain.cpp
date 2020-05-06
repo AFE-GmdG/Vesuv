@@ -51,25 +51,27 @@ namespace Vesuv {
 			HINSTANCE hInstance = GetModuleHandleW(nullptr);
 
 			Assembly^ executingAssembly = Assembly::GetExecutingAssembly();
-			AssemblyDescriptionAttribute^ description = dynamic_cast<AssemblyDescriptionAttribute ^>(Attribute::GetCustomAttribute(executingAssembly, AssemblyDescriptionAttribute::typeid));
-			AssemblyFileVersionAttribute^ fileVersion = dynamic_cast<AssemblyFileVersionAttribute ^>(Attribute::GetCustomAttribute(executingAssembly, AssemblyFileVersionAttribute::typeid));
+			AssemblyDescriptionAttribute^ description = dynamic_cast<AssemblyDescriptionAttribute ^>(
+				Attribute::GetCustomAttribute(executingAssembly, AssemblyDescriptionAttribute::typeid));
+			AssemblyFileVersionAttribute^ fileVersion = dynamic_cast<AssemblyFileVersionAttribute ^>(
+				Attribute::GetCustomAttribute(executingAssembly, AssemblyFileVersionAttribute::typeid));
 
 			logger->Log(String::Format("{0} Version {1}", description->Description, fileVersion->Version));
 
 			OS_Windows os(hInstance, executable, parameter);
 
-			Error error = Vesuv::Main::Main::setup();
+			Error error = Vesuv::Main::Main::Setup();
 			if (error != Error::Ok) {
 				return static_cast<int>(error);
 			}
 
-			if (Vesuv::Main::Main::start()) {
-				os.run();
+			if (Vesuv::Main::Main::Start()) {
+				os.Run();
 			}
 
-			//	Main::cleanup();
+			Vesuv::Main::Main::Cleanup();
 
-			return os.GetExitCode();
+			return os.ExitCode;
 		} finally {
 			delete logger;
 		}

@@ -10,8 +10,18 @@ namespace Vesuv::Platform::Windows {
 	private:
 		initonly HINSTANCE hInstance;
 		initonly Vesuv::Core::Logger^ logger;
-		System::UInt64 ticksPerSecond;
-		System::UInt64 ticksStart;
+		initonly System::UInt64 ticksPerSecond;
+		initonly System::UInt64 ticksStart;
+
+
+	public:
+		virtual property int ProcessorCount {
+			int get() override {
+				SYSTEM_INFO systemInfo;
+				GetSystemInfo(&systemInfo);
+				return systemInfo.dwNumberOfProcessors;
+			}
+		};
 
 
 	public:
@@ -20,16 +30,12 @@ namespace Vesuv::Platform::Windows {
 
 
 	protected:
-		virtual void initialize() override;
-		virtual System::UInt64 getTicksUsec() override;
+		virtual void Initialize() override;
+		virtual System::UInt64 GetTicksUsec() override;
 
 
 	public:
-		virtual int GetProcessorCount() override;
-
-
-	public:
-		void run();
+		void Run();
 
 	};
 

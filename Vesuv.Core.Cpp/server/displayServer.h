@@ -1,8 +1,6 @@
 #pragma once
-#include "../core/coreObject.h"
 
 namespace Vesuv::Server {
-
 
 
 	public ref class DisplayServer abstract :
@@ -15,7 +13,7 @@ namespace Vesuv::Server {
 
 	public:
 		DisplayServer();
-		~DisplayServer();
+		virtual ~DisplayServer();
 
 	public:
 		static DisplayServer^ getSingleton();

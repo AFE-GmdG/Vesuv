@@ -8,19 +8,26 @@ namespace Vesuv::Main {
 	using namespace Vesuv::Server;
 
 
-	Error Main::setupPlatformSpecific() {
+	Error Main::SetupPlatformSpecific() {
 		return Error::NYI;
 	}
 
 
-	Error Main::setup() {
+	Error Main::Setup() {
+		projectSettings = gcnew ProjectSettings();
+
 		return Error::Ok;
 	}
 
 
-	bool Main::start() {
+	bool Main::Start() {
 		return false;
 	}
 
 
+	void Main::Cleanup() {
+		if (projectSettings) {
+			delete projectSettings;
+		}
+	}
 }

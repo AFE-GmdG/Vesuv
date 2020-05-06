@@ -9,7 +9,7 @@ namespace Vesuv::Main {
 		// Singletons
 		// Initialized in setup()
 		//static Vesuv::Server::Engine^ engine = nullptr;
-		//static Vesuv::Server::ProjectSettings^ projectSettings = nullptr;
+		static Vesuv::Core::ProjectSettings^ projectSettings = nullptr;
 
 
 		// Initialized in setup2()
@@ -51,12 +51,14 @@ namespace Vesuv::Main {
 
 
 	private:
-		static Vesuv::Core::Error setupPlatformSpecific();
+		static Vesuv::Core::Error SetupPlatformSpecific();
 
 
 	public:
-		static Vesuv::Core::Error setup();
-		static bool start();
+		static Vesuv::Core::Error Setup();
+		static bool Start();
+
+		static void Cleanup();
 
 	};
 

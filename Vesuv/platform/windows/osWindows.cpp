@@ -8,12 +8,28 @@ namespace Vesuv::Platform::Windows {
 	using namespace Vesuv::Core;
 	using namespace Vesuv::Core::OS;
 
-	OS_Windows::OS_Windows(HINSTANCE hInstance, String^& executable, array<String^>^& parameter)
-		: OS(executable, parameter),
+
+	UInt64 InitTicksPerSecond() {
+		LARGE_INTEGER ticksPerSecond;
+		QueryPerformanceFrequency(&ticksPerSecond);
+		return static_cast<UInt64>(ticksPerSecond.QuadPart);
+	}
+
+
+	UInt64 InitTicksStart(UInt64 ticksPerSecond) {
+		LARGE_INTEGER ticks;
+		QueryPerformanceCounter(&ticks);
+		return ticks.QuadPart * 1000000L / ticksPerSecond;
+	}
+
+
+	OS_Windows::OS_Windows(HINSTANCE hInstance, String^& executable, array<String^>^& parameter) :
+		OS(executable, parameter),
 		hInstance(hInstance),
 		logger(Logger::GetFor()),
-		ticksPerSecond(0),
-		ticksStart(0) {
+		ticksPerSecond(InitTicksPerSecond()),
+		ticksStart(InitTicksStart(ticksPerSecond)) {
+
 		logger->Log("Initialize OS_Windows.");
 	}
 
@@ -26,33 +42,23 @@ namespace Vesuv::Platform::Windows {
 	}
 
 
-	void OS_Windows::initialize() {
-		pin_ptr<UInt64> pTicksPerSecond = &ticksPerSecond;
-		QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(pTicksPerSecond));
+	void OS_Windows::Initialize() {
+		// Init CrashHandler
+		// Init FileAccess / DirAccess???
+		// Init NetSocket
 
+		// Init a process map <= Make usage of the .net Threading Modell
+	}
+
+
+	UInt64 OS_Windows::GetTicksUsec() {
 		LARGE_INTEGER ticks;
 		QueryPerformanceCounter(&ticks);
-		ticksStart = ticks.QuadPart * 1000000L / ticksPerSecond;
+		return static_cast<UInt64>(ticks.QuadPart * 1000000L / ticksPerSecond) - ticksStart;
 	}
 
 
-	UInt64 OS_Windows::getTicksUsec() {
-		LARGE_INTEGER ticks;
-		UInt64 time;
-		QueryPerformanceCounter(&ticks);
-		time = (ticks.QuadPart * 1000000L / ticksPerSecond) - ticksStart;
-		return time;
-	}
-
-
-	int OS_Windows::GetProcessorCount() {
-		SYSTEM_INFO systemInfo;
-		GetSystemInfo(&systemInfo);
-		return systemInfo.dwNumberOfProcessors;
-	}
-
-
-	void OS_Windows::run() {}
+	void OS_Windows::Run() {}
 
 }
 
