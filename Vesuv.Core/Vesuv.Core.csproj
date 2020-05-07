@@ -48,13 +48,14 @@
     <Compile Include="Core\ProjectSettings.cs" />
     <Compile Include="Core\VesuvException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scene\Main\SceneTree.cs" />
+    <Compile Include="Server\DisplayServer.cs" />
+    <Compile Include="Server\WindowFlags.cs" />
+    <Compile Include="Server\WindowMode.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".editorconfig" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Scene\" />
-    <Folder Include="Server\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

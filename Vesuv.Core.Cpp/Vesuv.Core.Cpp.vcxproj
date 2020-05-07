@@ -106,22 +106,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp" />
-    <ClCompile Include="scene\main\sceneTree.cpp" />
-    <ClCompile Include="server\displayServer.cpp" />
-    <ClCompile Include="server\windowFlags.cpp" />
-    <ClCompile Include="server\windowMode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="scene\main\sceneTree.h" />
-    <ClInclude Include="server\displayServer.h" />
-    <ClInclude Include="server\windowFlags.h" />
-    <ClInclude Include="server\windowMode.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Vesuv.Core\Vesuv.Core.csproj">

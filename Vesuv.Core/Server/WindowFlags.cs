@@ -1,9 +1,10 @@
-#pragma once
+﻿using System;
 
-namespace Vesuv::Server {
+namespace Vesuv.Server
+{
 
-	[System::Flags]
-	public enum class WindowFlags
+	[Flags]
+	public enum WindowFlags
 	{
 		NoFlags = 0,
 		ResizeDisabled = 1,
@@ -11,6 +12,6 @@ namespace Vesuv::Server {
 		AlwaysOnTop = 4,
 		Transparent = 8,
 		NoFocus = 16
-	};
+	}
 
 }
