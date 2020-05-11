@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace Vesuv.Core.OS
 {
@@ -7,29 +9,34 @@ namespace Vesuv.Core.OS
 		IDisposable
 	{
 
+		#region Fields
 		private readonly Logger logger;
-		private readonly string executable;
-		private readonly string[] parameter;
 
 		private bool isDisposed = false;
 
 		protected MainLoop mainLoop;
+		#endregion
 
+		#region Properties
 		public static OS Singleton { get; private set; }
+
+		public string Executable { get; private set; }
+		public string[] Parameter { get; private set; }
 
 		public virtual int ExitCode { get; protected set; }
 		public virtual int ProcessorCount { get { return 1; } }
+		#endregion
 
+		#region ctor/dtor/Dispose
 		protected OS(ref string executable, ref string[] parameter) {
 			Singleton = this;
 			this.logger = Logger.GetFor();
-			this.executable = executable;
-			this.parameter = parameter;
 			this.mainLoop = null;
+			this.Executable = executable;
+			this.Parameter = parameter;
 
 			this.logger.Log("Initialize OS");
 		}
-
 
 		protected virtual void Dispose(bool disposing) {
 			if(!this.isDisposed) {
@@ -44,15 +51,22 @@ namespace Vesuv.Core.OS
 		public void Dispose() {
 			this.Dispose(true);
 		}
+		#endregion
 
+		#region Abstract Methods
+		public abstract void Initialize();
+		public abstract ulong GetTicksUsec();
+		#endregion
 
-		protected abstract void Initialize();
-		protected abstract ulong GetTicksUsec();
-
-
+		#region Methods
 		public virtual string GetSystemDir(SystemDir directory) {
 			return ".";
 		}
+
+		public virtual Error SetCwd(string cwd) {
+			return Error.CantOpen;
+		}
+		#endregion
 
 	}
 

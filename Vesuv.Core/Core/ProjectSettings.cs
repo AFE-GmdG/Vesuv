@@ -7,12 +7,16 @@ namespace Vesuv.Core
 
 	public class ProjectSetting
 	{
+
+		#region Fields
+		private object value;
+		#endregion
+
+		#region Properties
 		public string Category { get; private set; }
 		public string Name { get; private set; }
 		public Type Type { get; private set; }
 		public object DefaultValue { get; private set; }
-
-		private object value;
 		public object Value {
 			get {
 				if (this.value == null) {
@@ -22,7 +26,9 @@ namespace Vesuv.Core
 			}
 			set => this.value = value;
 		}
+		#endregion
 
+		#region ctor
 		public ProjectSetting(string category, string name, Type type, object defaultValue) {
 			this.Category = category;
 			this.Name = name;
@@ -38,6 +44,7 @@ namespace Vesuv.Core
 			this.DefaultValue = defaultValue;
 			this.value = value;
 		}
+		#endregion
 
 	}
 
@@ -46,14 +53,19 @@ namespace Vesuv.Core
 		CoreObject
 	{
 
+		#region Fields
 		private readonly List<ProjectSetting> settings;
+		#endregion
 
+		#region Properties
 		public static ProjectSettings Singleton { get; private set; }
 
 		public IEnumerable<IGrouping<string, ProjectSetting>> Categories {
 			get => this.settings.GroupBy(setting => setting.Category);
 		}
+		#endregion
 
+		#region ctor/dtor/Dispose
 		public ProjectSettings() {
 			Singleton = this;
 			this.settings = new List<ProjectSetting> {
@@ -69,6 +81,12 @@ namespace Vesuv.Core
 				Singleton = null;
 			}
 			base.Dispose(disposing);
+		}
+		#endregion
+
+		#region Methods
+		public Error Setup(string path, string mainPack, bool upwards) {
+			return Error.NYI;
 		}
 
 		public T GetSetting<T>(string category, string name) {
@@ -143,6 +161,8 @@ namespace Vesuv.Core
 			}
 			return false;
 		}
+		#endregion
+
 	}
 
 }

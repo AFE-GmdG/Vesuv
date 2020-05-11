@@ -5,6 +5,7 @@
 namespace Vesuv::Platform::Windows {
 
 	using namespace System;
+	using namespace System::IO;
 	using namespace Vesuv::Core;
 	using namespace Vesuv::Core::OS;
 
@@ -28,26 +29,30 @@ namespace Vesuv::Platform::Windows {
 		hInstance(hInstance),
 		logger(Logger::GetFor()),
 		ticksPerSecond(InitTicksPerSecond()),
-		ticksStart(InitTicksStart(ticksPerSecond)) {
+		ticksStart(InitTicksStart(ticksPerSecond)),
+		mainLoop(nullptr) {
 
-		logger->Log("Initialize OS_Windows.");
+		logger->Log("Initialize OS_Windows (ctor)");
 	}
 
 
 	OS_Windows::~OS_Windows() {
 		if (logger) {
-			logger->Log("Destroy OS_Windows.");
+			logger->Log("Destroy OS_Windows");
 			delete logger;
 		}
 	}
 
 
 	void OS_Windows::Initialize() {
+		logger->Log("Initialize OS_Windows (Initialize)");
 		// Init CrashHandler
 		// Init FileAccess / DirAccess???
 		// Init NetSocket
 
 		// Init a process map <= Make usage of the .net Threading Modell
+
+		mainLoop = nullptr;
 	}
 
 
@@ -55,6 +60,16 @@ namespace Vesuv::Platform::Windows {
 		LARGE_INTEGER ticks;
 		QueryPerformanceCounter(&ticks);
 		return static_cast<UInt64>(ticks.QuadPart * 1000000L / ticksPerSecond) - ticksStart;
+	}
+
+
+	Error OS_Windows::SetCwd(String^ cwd) {
+		try {
+			Directory::SetCurrentDirectory(cwd);
+			return Error::Ok;
+		} catch(Exception^) {
+			return Error::CantOpen;
+		}
 	}
 
 

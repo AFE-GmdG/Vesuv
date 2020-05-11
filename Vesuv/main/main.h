@@ -8,7 +8,7 @@ namespace Vesuv::Main {
 	private:
 		// Singletons
 		// Initialized in setup()
-		//static Vesuv::Server::Engine^ engine = nullptr;
+		static Vesuv::Core::Engine^ engine = nullptr;
 		static Vesuv::Core::ProjectSettings^ projectSettings = nullptr;
 
 
@@ -33,8 +33,14 @@ namespace Vesuv::Main {
 
 		// Engine config/tools
 		static bool editor = false;
-		static bool project_manager = false;
+		static bool projectManager = false;
+		static System::String^ projectPath = ".";
+		static System::String^ mainPack = "";
+		static bool upwards = false;
 
+#ifndef RUNTIME_ONLY
+		static bool foundProject = false;
+#endif
 
 		// Display
 		static Vesuv::Server::WindowMode windowMode = Vesuv::Server::WindowMode::Windowed;
@@ -51,6 +57,7 @@ namespace Vesuv::Main {
 
 
 	private:
+		static void ShowHelp();
 		static Vesuv::Core::Error SetupPlatformSpecific();
 
 

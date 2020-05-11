@@ -7,13 +7,17 @@ namespace Vesuv::Platform::Windows {
 		public Vesuv::Core::OS::OS
 	{
 
+#pragma region Fields
 	private:
 		initonly HINSTANCE hInstance;
 		initonly Vesuv::Core::Logger^ logger;
 		initonly System::UInt64 ticksPerSecond;
 		initonly System::UInt64 ticksStart;
 
+		Vesuv::Core::OS::MainLoop^ mainLoop;
+#pragma endregion
 
+#pragma region Properties
 	public:
 		virtual property int ProcessorCount {
 			int get() override {
@@ -22,20 +26,26 @@ namespace Vesuv::Platform::Windows {
 				return systemInfo.dwNumberOfProcessors;
 			}
 		};
+#pragma endregion
 
-
+#pragma region ctor/dtor/Dispose
 	public:
 		OS_Windows(HINSTANCE hInstance, System::String^& executable, array<System::String^>^& parameter);
 		virtual ~OS_Windows();
+#pragma endregion
 
-
-	protected:
+#pragma region Overwritten Methods
+	public:
 		virtual void Initialize() override;
 		virtual System::UInt64 GetTicksUsec() override;
 
+		virtual Vesuv::Core::Error SetCwd(System::String^ cwd) override;
+#pragma endregion
 
+#pragma region Methods
 	public:
 		void Run();
+#pragma endregion
 
 	};
 

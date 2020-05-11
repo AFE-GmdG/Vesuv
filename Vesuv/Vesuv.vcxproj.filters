@@ -8,7 +8,9 @@
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>assets</Filter>
     </ClCompile>
-    <ClCompile Include="main\main.cpp" />
+    <ClCompile Include="main\main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -18,7 +20,9 @@
       <Filter>platform\windows</Filter>
     </ClInclude>
     <ClInclude Include="globals.h" />
-    <ClInclude Include="main\main.h" />
+    <ClInclude Include="main\main.h">
+      <Filter>main</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="assets">

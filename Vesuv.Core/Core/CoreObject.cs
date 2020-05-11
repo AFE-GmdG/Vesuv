@@ -7,8 +7,11 @@ namespace Vesuv.Core
 		IDisposable
 	{
 
+		#region Fields
 		private bool isDisposed = false;
+		#endregion
 
+		#region ctor/dtor/Dispose
 		public CoreObject() {}
 
 		protected virtual void Dispose(bool disposing) {
@@ -22,6 +25,7 @@ namespace Vesuv.Core
 		public void Dispose() {
 			this.Dispose(true);
 		}
+		#endregion
 
 	}
 

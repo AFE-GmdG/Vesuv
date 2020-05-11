@@ -56,13 +56,13 @@ namespace Vesuv {
 			AssemblyFileVersionAttribute^ fileVersion = dynamic_cast<AssemblyFileVersionAttribute ^>(
 				Attribute::GetCustomAttribute(executingAssembly, AssemblyFileVersionAttribute::typeid));
 
-			logger->Log(String::Format("{0} Version {1}", description->Description, fileVersion->Version));
+			logger->Log(String::Format("{0}, Version {1}", description->Description, fileVersion->Version));
 
 			OS_Windows os(hInstance, executable, parameter);
 
 			Error error = Vesuv::Main::Main::Setup();
 			if (error != Error::Ok) {
-				return static_cast<int>(error);
+				return error == Error::InvalidParameter ? 0 : static_cast<int>(error);
 			}
 
 			if (Vesuv::Main::Main::Start()) {

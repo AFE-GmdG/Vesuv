@@ -1,49 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="scene">
-      <UniqueIdentifier>{6d36e05c-e5a1-4238-8c13-322ea7f62c49}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="scene\main">
-      <UniqueIdentifier>{7ebb1674-6e81-4971-9dab-3ce1e2bd2fe3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="assets">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="server">
-      <UniqueIdentifier>{e70d90f3-a3ee-4b43-bfcc-c8970722958a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AssemblyInfo.cpp">
       <Filter>assets</Filter>
     </ClCompile>
-    <ClCompile Include="scene\main\sceneTree.cpp">
-      <Filter>scene\main</Filter>
-    </ClCompile>
-    <ClCompile Include="server\windowFlags.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
-    <ClCompile Include="server\windowMode.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
-    <ClCompile Include="server\displayServer.cpp">
-      <Filter>server</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="scene\main\sceneTree.h">
-      <Filter>scene\main</Filter>
-    </ClInclude>
-    <ClInclude Include="server\windowFlags.h">
-      <Filter>server</Filter>
-    </ClInclude>
-    <ClInclude Include="server\windowMode.h">
-      <Filter>server</Filter>
-    </ClInclude>
-    <ClInclude Include="server\displayServer.h">
-      <Filter>server</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>

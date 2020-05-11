@@ -8,6 +8,8 @@
 
 		NotFound = 100,
 		NotCompatible,
+		InvalidParameter,
+		CantOpen,
 		Unavailable,
 		Unconfigured,
 		Unauthorized,

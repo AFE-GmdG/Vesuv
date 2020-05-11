@@ -3,6 +3,7 @@
 namespace Vesuv.Core
 {
 
+	// Todo: Implement a better Logging Solution
 	public class Logger :
 		CoreObject
 	{
@@ -29,13 +30,26 @@ namespace Vesuv.Core
 		}
 
 
-		public void Log() {
+		public virtual void Log() {
 			Debug.WriteLine("");
 		}
-		public void Log(string message) {
+		public virtual void Log(string message) {
 			Debug.WriteLine(message, this.context);
 		}
 
+		public virtual void Warn() {
+			Debug.WriteLine("");
+		}
+		public virtual void Warn(string message) {
+			Debug.WriteLine(message, this.context);
+		}
+
+		public virtual void Error() {
+			Debug.WriteLine("");
+		}
+		public virtual void Error(string message) {
+			Debug.WriteLine(message, this.context);
+		}
 	}
 
 }
