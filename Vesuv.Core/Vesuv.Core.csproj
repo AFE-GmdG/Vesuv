@@ -64,9 +64,6 @@
     <Compile Include="Server\WindowFlags.cs" />
     <Compile Include="Server\WindowMode.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include=".editorconfig" />
-  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -42,9 +42,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include=".editorconfig" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Vesuv.Core\Vesuv.Core.csproj">
       <Project>{74a7e68f-1093-42c6-8b2d-6eaee1c9340d}</Project>
       <Name>Vesuv.Core</Name>
