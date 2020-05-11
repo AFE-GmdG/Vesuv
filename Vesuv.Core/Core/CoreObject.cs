@@ -12,7 +12,7 @@ namespace Vesuv.Core
 		#endregion
 
 		#region ctor/dtor/Dispose
-		public CoreObject() {}
+		public CoreObject() { }
 
 		protected virtual void Dispose(bool disposing) {
 			if (!this.isDisposed) {

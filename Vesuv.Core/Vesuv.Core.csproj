@@ -3,7 +3,7 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
     <ProjectGuid>{74A7E68F-1093-42C6-8B2D-6EAEE1C9340D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +23,7 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Release\</OutputPath>
@@ -32,15 +32,14 @@
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Runtime|AnyCPU'">
-    <OutputPath>..\Runtime\</OutputPath>
-    <DefineConstants>TRACE;RUNTIME_ONLY</DefineConstants>
-    <Optimize>true</Optimize>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Runtime|x64'">
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
-    <LangVersion>7.3</LangVersion>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Runtime\</OutputPath>
+    <DefineConstants>RUNTIME_ONLY;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -48,24 +47,8 @@
     <Reference Include="System.Data" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Core\Engine.cs" />
-    <Compile Include="Core\Error.cs" />
     <Compile Include="Core\CoreObject.cs" />
-    <Compile Include="Core\Logger.cs" />
-    <Compile Include="Core\LogLevel.cs" />
-    <Compile Include="Core\OS\MainLoop.cs" />
-    <Compile Include="Core\OS\OS.cs" />
-    <Compile Include="Core\OS\SystemDir.cs" />
-    <Compile Include="Core\ProjectSettings.cs" />
-    <Compile Include="Core\VesuvException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scene\Main\SceneTree.cs" />
-    <Compile Include="Server\DisplayServer.cs" />
-    <Compile Include="Server\WindowFlags.cs" />
-    <Compile Include="Server\WindowMode.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include=".editorconfig" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

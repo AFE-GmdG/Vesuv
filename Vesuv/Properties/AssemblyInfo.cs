@@ -2,8 +2,8 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("TestCS")]
-[assembly: AssemblyDescription("Vesuv TestCS um C# zu testen")]
+[assembly: AssemblyTitle("Vesuv")]
+[assembly: AssemblyDescription("Vesuv Game Engine")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("AFE-GmdG")]
 [assembly: AssemblyProduct("Vesuv")]
@@ -12,8 +12,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 [assembly: ComVisible(false)]
-[assembly: CLSCompliant(true)]
-[assembly: Guid("9a69ee7c-f6f7-4953-bf7a-9e5f8c0cddff")]
+[assembly: CLSCompliant(false)]
+[assembly: Guid("f5ec8b4a-c346-4acd-b145-6299b943dc9a")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.1.0.0")]
+[assembly: AssemblyFileVersion("1.1.0.0")]

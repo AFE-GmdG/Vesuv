@@ -13,7 +13,7 @@ using namespace System::Runtime::InteropServices;
 
 [assembly:ComVisible(false)];
 [assembly:CLSCompliantAttribute(false)];
-[assembly:GuidAttribute("01dc3e45-566a-432b-9b9f-fe50ff923c80")];
+[assembly:GuidAttribute("a3c890de-c1ba-47a3-b351-ca579576f408")];
 
 [assembly:AssemblyVersionAttribute("1.0.0.0")];
 [assembly:AssemblyFileVersionAttribute("1.0.0.0")];
