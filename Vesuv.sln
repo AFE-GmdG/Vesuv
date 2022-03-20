@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vesuv", "Vesuv\Vesuv.csproj", "{6BA2BCAE-B60C-4C4D-93C7-26A2BE46ADB1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vesuv.Test", "Vesuv.Test\Vesuv.Test.csproj", "{56C59E0C-F30B-4EAD-BD4F-CEDF18DFC704}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,9 @@ Global
 		{6BA2BCAE-B60C-4C4D-93C7-26A2BE46ADB1}.Debug|x64.Build.0 = Debug|x64
 		{6BA2BCAE-B60C-4C4D-93C7-26A2BE46ADB1}.Release|x64.ActiveCfg = Release|x64
 		{6BA2BCAE-B60C-4C4D-93C7-26A2BE46ADB1}.Release|x64.Build.0 = Release|x64
+		{56C59E0C-F30B-4EAD-BD4F-CEDF18DFC704}.Debug|x64.ActiveCfg = Debug|x64
+		{56C59E0C-F30B-4EAD-BD4F-CEDF18DFC704}.Debug|x64.Build.0 = Debug|x64
+		{56C59E0C-F30B-4EAD-BD4F-CEDF18DFC704}.Release|x64.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,6 +15,7 @@ namespace Vesuv.Editor
 
         public string? GraphicDeviceName { get; set; }
         public string? DefaultProjectPath { get; set; }
+        public string Author { get; set; }
 
         public uint MaxMruProjects { get; set; }
         public ICollection<string> MruProjects { get; }
@@ -34,6 +35,7 @@ namespace Vesuv.Editor
                     defaultProjectPathInfo.Create();
                 }
                 DefaultProjectPath = defaultProjectPathInfo.FullName;
+                Author = Environment.UserName;
 
                 MaxMruProjects = 10;
                 MruProjects = new MRU<string>(MaxMruProjects);
@@ -68,6 +70,8 @@ namespace Vesuv.Editor
                 }
                 DefaultProjectPath = defaultProjectPathInfo.FullName;
             }
+
+            Author = globalConfigFile.ReadDefault("Author", Environment.UserName, "System");
 
             var mruProjects = new List<string>((int)MaxMruProjects);
             var enumerationOptions = new EnumerationOptions();
@@ -133,6 +137,7 @@ namespace Vesuv.Editor
                 } catch {
                 }
             }
+            globalConfigFile.Write("Author", Author, "System");
 
             globalConfigFile.DeleteSection("MruProjects");
             globalConfigFile.Write("MaxMruProjects", MaxMruProjects.ToString(), "MruProjects");

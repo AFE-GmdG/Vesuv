@@ -9,14 +9,17 @@
     <Platforms>x64</Platforms>
     <ApplicationIcon>../Vesuv.ico</ApplicationIcon>
     <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>$(MSBuildProjectName.Replace(" ", "_"))</RootNamespace>
     <DebugType>full</DebugType>
     <ProduceReferenceAssembly>False</ProduceReferenceAssembly>
     <ErrorReport>none</ErrorReport>
     <NeutralLanguage>en-US</NeutralLanguage>
-    <PackageLicenseExpression>CC-BY-NC-SA</PackageLicenseExpression>
+    <PackageLicenseExpression>CC-BY-NC-SA-4.0</PackageLicenseExpression>
     <RunAnalyzersDuringBuild>False</RunAnalyzersDuringBuild>
     <Authors>AFE-GmdG</Authors>
     <AssemblyVersion>0.0.1</AssemblyVersion>
+    <PackageIcon>Vesuv.png</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,6 +32,17 @@
 
   <ItemGroup>
     <Folder Include="Vulkan\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\Vesuv.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

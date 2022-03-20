@@ -6,16 +6,6 @@ namespace Vesuv.Core
     public class ProjectInfo
     {
 
-        private static Version CurrentEngineVersion {
-            get {
-                var attribute = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>();
-                if (attribute != null) {
-                    return new Version(attribute.Version);
-                }
-                return new Version(0, 0, 0);
-            }
-        }
-
         public bool IsMissing { get; set; }
         public string ProjectName { get; set; }
         public string? ProjectDescription { get; set; }
@@ -29,7 +19,7 @@ namespace Vesuv.Core
             if (engineVersion != null) {
                 EngineVersion = engineVersion;
             } else {
-                EngineVersion = CurrentEngineVersion;
+                EngineVersion = Common.CurrentEngineVersion;
             }
             ModifikationTime = DateTime.Now;
         }
@@ -51,7 +41,7 @@ namespace Vesuv.Core
         {
             IsMissing = false;
             ProjectName = "";
-            EngineVersion = CurrentEngineVersion;
+            EngineVersion = Common.CurrentEngineVersion;
             ModifikationTime = projectFile.ModifikationTime;
         }
     }
