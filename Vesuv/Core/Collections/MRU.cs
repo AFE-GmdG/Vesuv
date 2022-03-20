@@ -1,24 +1,50 @@
 ﻿using System.Collections;
+using System.Collections.Specialized;
 
 namespace Vesuv.Core.Collections
 {
-    public class MRU<T> : ICollection<T>, IEnumerable<T>, IEnumerable
+    public class MRU<T> : INotifyCollectionChanged, ICollection<T>, IEnumerable<T>, IEnumerable where T : IEquatable<T>
     {
         private readonly LinkedList<T> _items;
-        private uint _maxItems;
+        private int _capacity;
 
-        public event EventHandler? ItemsChanged;
+        public int Capacity {
+            get => _capacity;
+            set {
+                if (_capacity != value) {
+                    if (value < 1) {
+                        throw new ArgumentOutOfRangeException(nameof(value), value, "Value mut be greater than 0");
+                    }
+                    _capacity = value;
+                    if (_items.Count > value) {
+                        var node = _items.First;
+                        for (int i = 0; i < value; ++i) {
+                            node = node?.Next;
+                        }
+                        if (node != null) {
+                            while (node.Next != null) {
+                                _items.Remove(node.Next);
+                            }
+                            _items.Remove(node);
+                        }
+                        CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                    }
+                }
+            }
+        }
 
         public int Count => _items.Count;
         public bool IsReadOnly => false;
 
-        public MRU(uint maxItems = 10)
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
+
+        public MRU(int capacity = 10)
         {
-            if (maxItems == 0) {
-                throw new ArgumentOutOfRangeException(nameof(maxItems), maxItems, "MaxItems must be a greater than 0");
+            if (capacity < 1) {
+                throw new ArgumentOutOfRangeException(nameof(capacity), capacity, "Capacity must be greater than 0");
             }
             _items = new LinkedList<T>();
-            _maxItems = maxItems;
+            _capacity = capacity;
         }
 
         public MRU(ICollection<T> items)
@@ -27,22 +53,23 @@ namespace Vesuv.Core.Collections
                 throw new ArgumentException("Items must contain at least one item", nameof(items));
             }
             _items = new LinkedList<T>(items);
-            _maxItems = (uint)items.Count;
+            _capacity = _items.Count;
         }
 
-        public MRU(uint maxItems, ICollection<T> items)
+        public MRU(int capacity, ICollection<T> items)
         {
-            if (maxItems == 0) {
-                throw new ArgumentOutOfRangeException(nameof(maxItems), maxItems, "MaxItems must be a greater than 0");
+            if (capacity <1 ) {
+                throw new ArgumentOutOfRangeException(nameof(capacity), capacity, "Capacity must be greater than 0");
             }
             _items = new LinkedList<T>();
-            var enumerator = items.GetEnumerator();
+
+            var enumerator = items.Distinct().GetEnumerator();
             var index = 0;
-            while (index < maxItems && enumerator.MoveNext()) {
+            while (index < capacity && enumerator.MoveNext()) {
                 _items.AddLast(enumerator.Current);
                 ++index;
             }
-            _maxItems = maxItems;
+            _capacity = capacity;
         }
 
         public void Add(T item)
@@ -53,17 +80,17 @@ namespace Vesuv.Core.Collections
                 _items.AddFirst(node);
             } else {
                 _items.AddFirst(item);
-                if (_items.Count > _maxItems) {
+                if (_items.Count > _capacity) {
                     _items.RemoveLast();
                 }
             }
-            ItemsChanged?.Invoke(this, EventArgs.Empty);
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public void Clear()
         {
             _items.Clear();
-            ItemsChanged?.Invoke(this, EventArgs.Empty);
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public bool Contains(T item)
@@ -80,17 +107,17 @@ namespace Vesuv.Core.Collections
         {
             var success = _items.Remove(item);
             if (success) {
-                ItemsChanged?.Invoke(this, EventArgs.Empty);
+                CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             }
             return success;
         }
 
-        public IEnumerator GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return _items.GetEnumerator();
         }
 
-        IEnumerator<T> IEnumerable<T>.GetEnumerator()
+        public IEnumerator<T> GetEnumerator()
         {
             return _items.GetEnumerator();
         }

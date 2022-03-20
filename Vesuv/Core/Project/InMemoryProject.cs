@@ -6,8 +6,9 @@ namespace Vesuv.Core.Project
 {
     public class InMemoryProject : IProject
     {
-        private DirectoryInfo? _projectDirectory;
         bool _isModified;
+
+        private DirectoryInfo? _projectDirectory;
 
         private string _name;
         private string? _description;
@@ -28,6 +29,10 @@ namespace Vesuv.Core.Project
                     ProjectChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
+        }
+
+        public DirectoryInfo? ProjectDirectory {
+            get => _projectDirectory;
         }
 
         public string Name {
@@ -124,6 +129,30 @@ namespace Vesuv.Core.Project
                 IsModified = false,
                 _author = GlobalConfig.Instance.Author
             };
+        }
+
+        public bool Equals(IProject? other)
+        {
+            if (other is not IProject otherProject) {
+                return false;
+            }
+            if (ReferenceEquals(this, otherProject)) {
+                return true;
+            }
+
+            if (otherProject is not InMemoryProject otherInMemoryProject) {
+                return false;
+            }
+
+            if (_projectDirectory != null && otherInMemoryProject._projectDirectory != null) {
+                return _projectDirectory.Equals(otherInMemoryProject._projectDirectory);
+            }
+
+            if (_projectDirectory == null && otherInMemoryProject._projectDirectory == null) {
+                return _name.Equals(otherInMemoryProject._name);
+            }
+
+            return false;
         }
     }
 }

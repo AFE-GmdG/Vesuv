@@ -43,6 +43,9 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="$(LocalAppData)\Vesuv\Vesuv.ini">
+      <Pack>False</Pack>
+    </None>
   </ItemGroup>
 
 </Project>

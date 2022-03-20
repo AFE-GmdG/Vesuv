@@ -1,10 +1,14 @@
-﻿namespace Vesuv.Core.Project
+﻿using System.IO;
+
+namespace Vesuv.Core.Project
 {
-    public interface IProject
+    public interface IProject : IEquatable<IProject>
     {
         bool IsReadonly { get; }
         bool IsMissing { get; }
         bool IsModified { get; }
+
+        DirectoryInfo? ProjectDirectory { get; }
 
         string Name { get; set; }
         string? Description { get; set; }

@@ -101,18 +101,19 @@ namespace Vesuv.Editor.ViewModel
 
         private static ObservableCollection<ProjectInfoViewModel> InitMruProjects()
         {
-            var projectInfos = GlobalConfig.Instance.MruProjects.Select(projectPath => {
-                var projectDirectoryInfo = new DirectoryInfo(projectPath);
-                if (!projectDirectoryInfo.Exists) {
-                    return new ProjectInfoViewModel(new ProjectInfo(projectDirectoryInfo, true));
-                }
-                var projectFile = projectDirectoryInfo.GetFiles("project.vesuv", SearchOption.TopDirectoryOnly).FirstOrDefault();
-                if (projectFile == null) {
-                    return new ProjectInfoViewModel(new ProjectInfo(projectDirectoryInfo, true));
-                }
-                return new ProjectInfoViewModel(new ProjectInfo(new ProjectFile(projectFile)));
-            });
-            return new ObservableCollection<ProjectInfoViewModel>(projectInfos);
+            throw new NotImplementedException();
+            //var projectInfos = GlobalConfig.Instance.MruProjects.Select(projectPath => {
+            //    var projectDirectoryInfo = new DirectoryInfo(projectPath);
+            //    if (!projectDirectoryInfo.Exists) {
+            //        return new ProjectInfoViewModel(new ProjectInfo(projectDirectoryInfo, true));
+            //    }
+            //    var projectFile = projectDirectoryInfo.GetFiles("project.vesuv", SearchOption.TopDirectoryOnly).FirstOrDefault();
+            //    if (projectFile == null) {
+            //        return new ProjectInfoViewModel(new ProjectInfo(projectDirectoryInfo, true));
+            //    }
+            //    return new ProjectInfoViewModel(new ProjectInfo(new ProjectFile(projectFile)));
+            //});
+            //return new ObservableCollection<ProjectInfoViewModel>(projectInfos);
         }
 
     }

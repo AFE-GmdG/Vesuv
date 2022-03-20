@@ -3,6 +3,7 @@ using System.IO;
 
 using Vesuv.Core.Collections;
 using Vesuv.Core.Config;
+using Vesuv.Core.Project;
 using Vesuv.Win32;
 
 namespace Vesuv.Editor
@@ -10,70 +11,79 @@ namespace Vesuv.Editor
 
     public class GlobalConfig : ConfigBase
     {
-        private static GlobalConfig _instance = new GlobalConfig();
-        public static GlobalConfig Instance => _instance;
+        private static readonly string _globalConfigFilePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                "Vesuv",
+                "Vesuv.ini");
+
+        public static GlobalConfig Instance { get; } = new GlobalConfig();
 
         public string? GraphicDeviceName { get; set; }
         public string? DefaultProjectPath { get; set; }
         public string Author { get; set; }
 
-        public uint MaxMruProjects { get; set; }
-        public ICollection<string> MruProjects { get; }
+        public int MaxMruProjects { get; set; }
+        public MRU<IProject> MruProjects { get; private set; }
 
+#pragma warning disable CS8618 // All non nullable fields are initialized within methods called by the ctor. - Suppress this warning here.
         private GlobalConfig()
         {
-            var globalConfigFilePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "Vesuv",
-                "Vesuv.ini");
-            var fileInfo = new FileInfo(globalConfigFilePath);
-            if (!fileInfo.Directory!.Exists) {
-                var defaultProjectPathInfo = new DirectoryInfo(Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    "Vesuv"));
-                if (!defaultProjectPathInfo.Exists) {
-                    defaultProjectPathInfo.Create();
-                }
-                DefaultProjectPath = defaultProjectPathInfo.FullName;
-                Author = Environment.UserName;
-
-                MaxMruProjects = 10;
-                MruProjects = new MRU<string>(MaxMruProjects);
-                ((MRU<string>)MruProjects).ItemsChanged += OnConfigChange;
-
+            if (!File.Exists(_globalConfigFilePath)) {
+                LoadDefaultValues();
                 return;
             }
+            LoadGlobalConfig();
+        }
+#pragma warning restore CS8618
 
-            var globalConfigFile = new IniFile(fileInfo.FullName);
-            MaxMruProjects = UInt32.Parse(
-                globalConfigFile.ReadDefault("MaxMruProjects", "10", "MruProjects"),
-                NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite,
-                CultureInfo.InvariantCulture);
+        private void LoadDefaultValues()
+        {
+            var defaultProjectPathInfo = new DirectoryInfo(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vesuv"));
+            if (!defaultProjectPathInfo.Exists) {
+                defaultProjectPathInfo.Create();
+            }
+            DefaultProjectPath = defaultProjectPathInfo.FullName;
+            Author = Environment.UserName;
+
+            MaxMruProjects = 10;
+            MruProjects = new MRU<IProject>(MaxMruProjects);
+            MruProjects.CollectionChanged += OnConfigChange;
+            IsModified = false;
+        }
+
+        private void LoadGlobalConfig()
+        {
+            var globalConfigFile = new IniFile(_globalConfigFilePath);
 
             GraphicDeviceName = globalConfigFile.Read("GraphicDeviceName", "Video");
 
             DefaultProjectPath = globalConfigFile.Read("DefaultProjectPath", "System");
             if (DefaultProjectPath != null) {
                 try {
-                    if (!new DirectoryInfo(DefaultProjectPath).Exists) {
+                    if (!Directory.Exists(DefaultProjectPath)) {
                         DefaultProjectPath = null;
                     }
                 } catch {
+                    // Directory.Exists may throw a exception, if the DefaultProjectPath is invalid.
+                    // Ignote the exception and set the value to null.
+                    DefaultProjectPath = null;
                 }
             }
             if (DefaultProjectPath == null) {
-                var defaultProjectPathInfo = new DirectoryInfo(Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                    "Vesuv"));
-                if (!defaultProjectPathInfo.Exists) {
-                    defaultProjectPathInfo.Create();
+                DefaultProjectPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vesuv");
+                if (!Directory.Exists(DefaultProjectPath)) {
+                    Directory.CreateDirectory(DefaultProjectPath);
                 }
-                DefaultProjectPath = defaultProjectPathInfo.FullName;
             }
 
             Author = globalConfigFile.ReadDefault("Author", Environment.UserName, "System");
 
-            var mruProjects = new List<string>((int)MaxMruProjects);
+            MaxMruProjects = Math.Max(1, Int32.Parse(
+                globalConfigFile.ReadDefault("MaxMruProjects", "10", "MruProjects"),
+                NumberStyles.AllowLeadingWhite | NumberStyles.AllowTrailingWhite,
+                CultureInfo.InvariantCulture));
+
+            var mruProjects = new List<IProject>(MaxMruProjects);
             var enumerationOptions = new EnumerationOptions();
             enumerationOptions.AttributesToSkip = FileAttributes.System | FileAttributes.Directory;
             enumerationOptions.IgnoreInaccessible = true;
@@ -82,30 +92,20 @@ namespace Vesuv.Editor
             enumerationOptions.RecurseSubdirectories = false;
             enumerationOptions.ReturnSpecialDirectories = false;
 
-            for (uint i = 1; i <= MaxMruProjects; ++i) {
-                var mruProject = globalConfigFile.Read(i.ToString(), "MruProjects");
-                if (mruProject != null) {
+            for (int i = 1; i <= MaxMruProjects; ++i) {
+                var mruProjectPath = globalConfigFile.Read(i.ToString(), "MruProjects");
+                if (mruProjectPath != null) {
                     try {
-                        var projectInfo = new DirectoryInfo(mruProject);
-                        if (!projectInfo.Exists) {
-                            continue;
-                        }
-                        var projectConfigInfo = projectInfo.EnumerateFiles("project.vesuv", enumerationOptions).FirstOrDefault();
-                        if (projectConfigInfo == null) {
-                            continue;
-                        }
-
-                        // TODO: Check project...
-
-                        mruProjects.Add(mruProject);
+                        // TODO: Read to the IProject
                     } catch {
                         continue;
                     }
                 }
             }
 
-            MruProjects = new MRU<string>(MaxMruProjects, mruProjects);
-            ((MRU<string>)MruProjects).ItemsChanged += OnConfigChange;
+            MruProjects = new MRU<IProject>(MaxMruProjects, mruProjects);
+            MruProjects.CollectionChanged += OnConfigChange;
+            IsModified = false;
         }
 
         public override void RevertChanges()
@@ -114,16 +114,16 @@ namespace Vesuv.Editor
                 return;
             }
 
-            throw new NotImplementedException();
+            if (!File.Exists(_globalConfigFilePath)) {
+                LoadDefaultValues();
+                return;
+            }
+            LoadGlobalConfig();
         }
 
         public override void SaveChanges()
         {
-            var globalConfigFilePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "Vesuv",
-                "Vesuv.ini");
-            var globalConfigFile = new IniFile(globalConfigFilePath);
+            var globalConfigFile = new IniFile(_globalConfigFilePath);
 
             if (GraphicDeviceName != null) {
                 globalConfigFile.Write("GraphicDeviceName", GraphicDeviceName, "Video");
@@ -144,12 +144,23 @@ namespace Vesuv.Editor
             var projectEnumerator = MruProjects.GetEnumerator();
             var i = 1;
             while (i <= MaxMruProjects && projectEnumerator.MoveNext()) {
-                globalConfigFile.Write(i.ToString(), projectEnumerator.Current, "MruProjects");
+                if (projectEnumerator.Current is InMemoryProject inMemoryProject) {
+                    // Only missing projects are of type InMemoryProject, that have a ProjectDirectory
+                    if (inMemoryProject.ProjectDirectory != null) {
+                        globalConfigFile.Write(i.ToString(), inMemoryProject.ProjectDirectory.FullName, "MruProjects");
+                        ++i;
+                    }
+                    continue;
+                }
+                // A non InMemoryProject should always have a ProjectDirectory
+                if (projectEnumerator.Current.ProjectDirectory == null) {
+                    continue;
+                }
+                globalConfigFile.Write(i.ToString(), projectEnumerator.Current.ProjectDirectory.FullName, "MruProjects");
+                ++i;
             }
 
             IsModified = false;
         }
-
     }
-
 }
