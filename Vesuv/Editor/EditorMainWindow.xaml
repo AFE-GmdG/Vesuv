@@ -1,0 +1,35 @@
+﻿<Window
+    x:Class="Vesuv.Editor.EditorMainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:e="clr-namespace:Vesuv.Editor"
+    xmlns:vc="clr-namespace:Vesuv.Editor.ValueConverters"
+    xmlns:vm="clr-namespace:Vesuv.Editor.ViewModel"
+    mc:Ignorable="d"
+    Title="EditorMainWindow"
+    Width="1280"
+    Height="680"
+    MinWidth="800"
+    MinHeight="560"
+    WindowStartupLocation="CenterScreen"
+    WindowState="Maximized"
+    Style="{DynamicResource DefaultWindowStyle}">
+
+    <DockPanel>
+        <Menu
+            x:Name="mainMenu"
+            DockPanel.Dock="Top"
+        >
+            <MenuItem Header="Scene">
+                <MenuItem Header="_New Scene" />
+                <MenuItem Header="New _Inherited Scene…" />
+                <MenuItem Header="_Open Scene…" />
+            </MenuItem>
+        </Menu>
+
+        <Grid>
+        </Grid>
+    </DockPanel>
+</Window>
