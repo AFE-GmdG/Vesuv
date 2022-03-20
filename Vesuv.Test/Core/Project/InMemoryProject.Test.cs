@@ -5,7 +5,7 @@ namespace Vesuv.Core.Project
     public class InMemoryProjectTest
     {
 
-        [Fact]
+        [Fact(DisplayName = "Create a project that doesn't exist.")]
         public void CreateMissingProject()
         {
             // Prepare Test
@@ -27,6 +27,27 @@ namespace Vesuv.Core.Project
             var expectedModifiedFlag = false;
             var expectedProjectName = $"MissingProject ({uniquePathCounter})";
             var expectedEngineVersion = new Version(0, 0, 0);
+
+            // Do the tests
+            Assert.Equal(expectedReadonlyFlag, project.IsReadonly);
+            Assert.Equal(expectedMissingFlag, project.IsMissing);
+            Assert.Equal(expectedModifiedFlag, project.IsModified);
+            Assert.Equal(expectedProjectName, project.Name);
+            Assert.Equal(expectedEngineVersion, project.EngineVersion);
+        }
+
+        [Fact(DisplayName = "Create a in-memory-project")]
+        public void CreateNewInMemoryProject()
+        {
+            // Prepare actual object
+            IProject project = InMemoryProject.CreateProject("Test Project");
+
+            // Prepare expected properties
+            var expectedReadonlyFlag = false;
+            var expectedMissingFlag = false;
+            var expectedModifiedFlag = false;
+            var expectedProjectName = $"Test Project";
+            var expectedEngineVersion = Common.CurrentEngineVersion;
 
             // Do the tests
             Assert.Equal(expectedReadonlyFlag, project.IsReadonly);
