@@ -52,8 +52,8 @@ namespace Vesuv.Core.Collections
             if (items.Count == 0) {
                 throw new ArgumentException("Items must contain at least one item", nameof(items));
             }
-            _items = new LinkedList<T>(items);
-            _capacity = _items.Count;
+            _items = new LinkedList<T>(items.Distinct());
+            _capacity = items.Count;
         }
 
         public MRU(int capacity, ICollection<T> items)
