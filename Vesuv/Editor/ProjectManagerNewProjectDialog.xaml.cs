@@ -2,9 +2,9 @@
 
 namespace Vesuv.Editor
 {
-    public partial class EditorMainWindow : Window
+    public partial class ProjectManagerNewProjectDialog : Window
     {
-        public EditorMainWindow()
+        public ProjectManagerNewProjectDialog()
         {
             InitializeComponent();
         }

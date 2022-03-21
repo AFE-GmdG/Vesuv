@@ -1,6 +1,6 @@
 using Xunit;
 
-namespace Vesuv.Core.Project
+namespace Vesuv.Core._Project
 {
     public class InMemoryProjectTest
     {

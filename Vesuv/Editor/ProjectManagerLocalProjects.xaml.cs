@@ -1,28 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+using Vesuv.Editor.ViewModel;
 
 namespace Vesuv.Editor
 {
-    /// <summary>
-    /// Interaktionslogik für ProjectManagerLocalProjects.xaml
-    /// </summary>
     public partial class ProjectManagerLocalProjects : UserControl
     {
         public ProjectManagerLocalProjects()
         {
             InitializeComponent();
+        }
+
+        private void ProjectManagerLocalProjects_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not ProjectManagerViewModel viewModel) {
+                return;
+            }
+
+            viewModel.NewProject += OnNewProject;
+        }
+
+        private void OnNewProject(object? sender, EventArgs e)
+        {
+            var pmNewProjectViewModel = new ProjectManagerNewProjectViewModel();
+            var pmNewProjectDialog = new ProjectManagerNewProjectDialog {
+                Owner = Window.GetWindow(this),
+                DataContext = pmNewProjectViewModel,
+            };
+            System.Diagnostics.Debug.WriteLine(pmNewProjectDialog.ShowDialog());
         }
     }
 }

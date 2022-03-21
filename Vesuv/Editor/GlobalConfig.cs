@@ -3,7 +3,7 @@ using System.IO;
 
 using Vesuv.Core.Collections;
 using Vesuv.Core.Config;
-using Vesuv.Core.Project;
+using Vesuv.Core._Project;
 using Vesuv.Win32;
 
 namespace Vesuv.Editor
@@ -84,13 +84,14 @@ namespace Vesuv.Editor
                 CultureInfo.InvariantCulture));
 
             var mruProjects = new List<IProject>(MaxMruProjects);
-            var enumerationOptions = new EnumerationOptions();
-            enumerationOptions.AttributesToSkip = FileAttributes.System | FileAttributes.Directory;
-            enumerationOptions.IgnoreInaccessible = true;
-            enumerationOptions.MatchCasing = MatchCasing.CaseInsensitive;
-            enumerationOptions.MatchType = MatchType.Simple;
-            enumerationOptions.RecurseSubdirectories = false;
-            enumerationOptions.ReturnSpecialDirectories = false;
+            var enumerationOptions = new EnumerationOptions {
+                AttributesToSkip = FileAttributes.System | FileAttributes.Directory,
+                IgnoreInaccessible = true,
+                MatchCasing = MatchCasing.CaseInsensitive,
+                MatchType = MatchType.Simple,
+                RecurseSubdirectories = false,
+                ReturnSpecialDirectories = false
+            };
 
             for (int i = 1; i <= MaxMruProjects; ++i) {
                 var mruProjectPath = globalConfigFile.Read(i.ToString(), "MruProjects");

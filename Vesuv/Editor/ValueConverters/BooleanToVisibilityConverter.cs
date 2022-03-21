@@ -11,6 +11,11 @@ namespace Vesuv.Editor.ValueConverters
             if (value is not bool isVisible || !targetType.Equals(typeof(Visibility))) {
                 throw new InvalidOperationException("Invalid convert request");
             }
+            if (parameter is string useHidden && useHidden == "Hidden") {
+                return isVisible
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
+            }
             return isVisible
                 ? Visibility.Visible
                 : Visibility.Collapsed;

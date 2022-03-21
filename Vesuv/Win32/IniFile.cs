@@ -39,7 +39,7 @@ namespace Vesuv.Win32
         public string ReadDefault(string key, string defaultValue, string? section = null)
         {
             var retVal = new StringBuilder(255);
-            GetPrivateProfileString(section ?? assemblyName, key, defaultValue, retVal, 255, iniFileName);
+            _ = GetPrivateProfileString(section ?? assemblyName, key, defaultValue, retVal, 255, iniFileName);
             return retVal.ToString();
         }
 
@@ -81,5 +81,4 @@ namespace Vesuv.Win32
             return Read(key, section) == null;
         }
     }
-
 }

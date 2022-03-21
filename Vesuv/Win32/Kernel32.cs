@@ -18,8 +18,7 @@ namespace Vesuv.Win32
         }
 
         [DllImport("kernel32.dll", EntryPoint = "FormatMessageW", CharSet = CharSet.Unicode)]
-        private static extern int FormatMessage(FORMAT_MESSAGE dwFlags, IntPtr lpSource, int dwMessageId, uint dwLanguageId, out StringBuilder msgOut, int nSize, IntPtr Arguments);
-
+        private static extern int FormatMessage(FORMAT_MESSAGE dwFlags, IntPtr lpSource, int dwMessageId, uint dwLanguageId, StringBuilder msgOut, int nSize, IntPtr Arguments);
 
         public static string? GetLastErrorMessage()
         {
@@ -33,7 +32,7 @@ namespace Vesuv.Win32
                 IntPtr.Zero,
                 error,
                 0,
-                out errorMessage,
+                errorMessage,
                 errorMessage.Capacity,
                 IntPtr.Zero);
             if (size == 0) {
@@ -41,6 +40,5 @@ namespace Vesuv.Win32
             }
             return errorMessage.ToString();
         }
-
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Vesuv.Core.Project
+namespace Vesuv.Core._Project
 {
     public interface IProject : IEquatable<IProject>
     {

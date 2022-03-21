@@ -1,46 +1,36 @@
-﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.IO;
-using System.Reflection;
+﻿using System.Diagnostics;
 
 using Vesuv.Core;
+using Vesuv.Core._Project;
 using Vesuv.Editor.Commands;
 
 namespace Vesuv.Editor.ViewModel
 {
     public class ProjectManagerViewModel : BaseViewModel
     {
-
-        public Version EngineVersion {
-            get {
-                var attribute = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyFileVersionAttribute>();
-                if (attribute != null) {
-                    return new Version(attribute.Version);
-                }
-                return new Version(0, 0, 0);
-            }
-        }
-
-        private ObservableCollection<ProjectInfoViewModel> _mruProjects;
-        public ObservableCollection<ProjectInfoViewModel> MruProjects {
-            get => _mruProjects;
-            private set {
-                if (_mruProjects != value) {
-                    _mruProjects = value;
+        private IProject? _selectedProject;
+        public IProject? SelectedProject {
+            get => _selectedProject;
+            set {
+                if (_selectedProject != value) {
+                    _selectedProject = value;
                     RaisePropertyChanged();
                 }
             }
         }
 
-        public DelegateCommand NewProjectCommand { get; private set; }
-        public DelegateCommand ImportProjectCommand { get; private set; }
-        public DelegateCommand ScanForProjectsCommand { get; private set; }
+        public DelegateCommand NewProjectCommand { get; private init; }
+        public DelegateCommand ImportProjectCommand { get; private init; }
+        public DelegateCommand ScanForProjectsCommand { get; private init; }
 
-        public DelegateCommand EditProjectCommand { get; private set; }
-        public DelegateCommand RunProjectCommand { get; private set; }
-        public DelegateCommand RenameProjectCommand { get; private set; }
-        public DelegateCommand RemoveProjectCommand { get; private set; }
-        public DelegateCommand RemoveMissingProjectsCommand { get; private set; }
+        public DelegateCommand EditProjectCommand { get; private init; }
+        public DelegateCommand RunProjectCommand { get; private init; }
+        public DelegateCommand RenameProjectCommand { get; private init; }
+        public DelegateCommand RemoveProjectCommand { get; private init; }
+        public DelegateCommand RemoveMissingProjectsCommand { get; private init; }
+        public DelegateCommand AboutCommand { get; private init; }
+
+        public event EventHandler? NewProject;
 
         public ProjectManagerViewModel()
         {
@@ -53,19 +43,7 @@ namespace Vesuv.Editor.ViewModel
             RenameProjectCommand = new DelegateCommand(IsProjectSelected, OnRenameProject);
             RemoveProjectCommand = new DelegateCommand(IsProjectSelected, OnRemoveProject);
             RemoveMissingProjectsCommand = new DelegateCommand(OnRemoveMissingProjects);
-
-            if (IsDesignTime) {
-                _mruProjects = new ObservableCollection<ProjectInfoViewModel>(new ProjectInfoViewModel[] {
-                    new ProjectInfoViewModel(new ProjectInfo("Dummy Project 1", EngineVersion)),
-                    new ProjectInfoViewModel(new ProjectInfo("Dummy Project 2", new Version(0, 4, 1))),
-                    new ProjectInfoViewModel(new ProjectInfo(new DirectoryInfo("S:\\Work\\Vesuv\\Tutorial (02)"), true))
-                });
-            } else {
-                _mruProjects = InitMruProjects();
-            }
-
-            RaisePropertyChanged(nameof(EngineVersion));
-            RaisePropertyChanged(nameof(MruProjects));
+            AboutCommand = new DelegateCommand(OnAbout);
         }
 
         private bool IsProjectSelected(object? obj)
@@ -75,21 +53,15 @@ namespace Vesuv.Editor.ViewModel
 
         private void OnNewProject(object? _)
         {
-            Debug.WriteLine("Create a new Project");
+            SelectedProject = null;
+            NewProject?.Invoke(this, new EventArgs());
         }
 
         private void OnImportProject(object? _) => throw new NotImplementedException();
 
         private void OnScanForProjects(object? _) => throw new NotImplementedException();
 
-        private void OnEditProject(object? obj)
-        {
-            if (obj == null || obj is not ProjectInfo projectInfo) {
-                return;
-            }
-
-            Debug.WriteLine("Open Project: {0:s}", new Object[] { projectInfo.ProjectName });
-        }
+        private void OnEditProject(object? _) => throw new NotImplementedException();
 
         private void OnRunProject(object? _) => throw new NotImplementedException();
 
@@ -99,22 +71,6 @@ namespace Vesuv.Editor.ViewModel
 
         private void OnRemoveMissingProjects(object? _) => throw new NotImplementedException();
 
-        private static ObservableCollection<ProjectInfoViewModel> InitMruProjects()
-        {
-            throw new NotImplementedException();
-            //var projectInfos = GlobalConfig.Instance.MruProjects.Select(projectPath => {
-            //    var projectDirectoryInfo = new DirectoryInfo(projectPath);
-            //    if (!projectDirectoryInfo.Exists) {
-            //        return new ProjectInfoViewModel(new ProjectInfo(projectDirectoryInfo, true));
-            //    }
-            //    var projectFile = projectDirectoryInfo.GetFiles("project.vesuv", SearchOption.TopDirectoryOnly).FirstOrDefault();
-            //    if (projectFile == null) {
-            //        return new ProjectInfoViewModel(new ProjectInfo(projectDirectoryInfo, true));
-            //    }
-            //    return new ProjectInfoViewModel(new ProjectInfo(new ProjectFile(projectFile)));
-            //});
-            //return new ObservableCollection<ProjectInfoViewModel>(projectInfos);
-        }
-
+        private void OnAbout(object? _) => throw new NotImplementedException();
     }
 }

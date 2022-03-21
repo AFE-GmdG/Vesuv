@@ -12,6 +12,51 @@
         <Setter Property="Background" Value="{DynamicResource BorderBrush}" />
     </Style>
 
+    <Style TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Foreground" Value="{StaticResource ForegroundBrush}"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        <Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        <Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBox}">
+                    <Border
+                        x:Name="Bd"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="3"
+                        Padding="1"
+                        SnapsToDevicePixels="true"
+                    >
+                        <ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Background" TargetName="Bd" Value="{StaticResource BackgroundDisabledBrush}"/>
+                            <Setter Property="BorderBrush" TargetName="Bd" Value="{StaticResource BorderDisabledBrush}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsGrouping" Value="true"/>
+                                <Condition Property="VirtualizingPanel.IsVirtualizingWhenGrouping" Value="false"/>
+                            </MultiTrigger.Conditions>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource baseStyle}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource BackgroundBrush}"/>
@@ -31,6 +76,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="3"
                         SnapsToDevicePixels="true"
+                        Cursor="Hand"
                     >
                         <ContentPresenter
                             x:Name="contentPresenter"
@@ -61,6 +107,7 @@
                             <Setter Property="Background" TargetName="border" Value="{StaticResource BackgroundDisabledBrush}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource BorderDisabledBrush}"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource ForegroundDisabledBrush}"/>
+                            <Setter Property="Cursor" TargetName="border" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -87,6 +134,7 @@
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="3"
                         SnapsToDevicePixels="true"
+                        Cursor="Hand"
                     >
                         <ContentPresenter
                             x:Name="contentPresenter"
@@ -122,6 +170,7 @@
                             <Setter Property="Background" TargetName="border" Value="{StaticResource BackgroundDisabledBrush}"/>
                             <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource BorderDisabledBrush}"/>
                             <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource ForegroundDisabledBrush}"/>
+                            <Setter Property="Cursor" TargetName="border" Value="Arrow"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -169,6 +218,7 @@
                             Margin="{TemplateBinding Padding}"
                             RecognizesAccessKey="True"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            Cursor="Hand"
                         />
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -234,6 +284,7 @@
                             <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource BorderDisabledBrush}"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
                             <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,0,1"/>
+                            <Setter Property="Cursor" TargetName="contentPresenter" Value="Arrow"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -245,6 +296,7 @@
                             <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource BorderDisabledBrush}"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
                             <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,0,1,1"/>
+                            <Setter Property="Cursor" TargetName="contentPresenter" Value="Arrow"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -256,6 +308,7 @@
                             <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource BorderDisabledBrush}"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
                             <Setter Property="BorderThickness" TargetName="mainBorder" Value="0,1,1,1"/>
+                            <Setter Property="Cursor" TargetName="contentPresenter" Value="Arrow"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
@@ -267,6 +320,7 @@
                             <Setter Property="BorderBrush" TargetName="mainBorder" Value="{StaticResource BorderDisabledBrush}"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
                             <Setter Property="BorderThickness" TargetName="mainBorder" Value="1,1,1,0"/>
+                            <Setter Property="Cursor" TargetName="contentPresenter" Value="Arrow"/>
                         </MultiDataTrigger>
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>

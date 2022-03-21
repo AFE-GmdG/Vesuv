@@ -4,17 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:vc="clr-namespace:Vesuv.Editor.ValueConverters"
     xmlns:vm="clr-namespace:Vesuv.Editor.ViewModel"
     mc:Ignorable="d"
     d:DesignWidth="800"
     d:DesignHeight="450"
+    Loaded="ProjectManagerLocalProjects_Loaded"
 >
-    <UserControl.Resources>
-        <vc:DefaultValueConverter x:Key="DefaultValue" />
-        <vc:FormatValueConverter x:Key="FormatString" />
-        <vc:VersionToStringConverter x:Key="Version2String" />
-    </UserControl.Resources>
     <d:UserControl.DataContext>
         <vm:ProjectManagerViewModel />
     </d:UserControl.DataContext>
@@ -31,18 +26,31 @@
         </Grid.RowDefinitions>
 
         <!-- Filter Project List Textbox -->
-        <TextBox
+
+        <!-- Sort Project List Dropdown -->
+        <Grid
             Grid.Column="0"
             Grid.Row="0"
-            HorizontalAlignment="Stretch"
-            Margin="4"
-        />
+            Margin="2"
+        >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" MaxWidth="300" />
+                <ColumnDefinition Width="auto" />
+            </Grid.ColumnDefinitions>
+            <TextBox
+                x:Name="filterTextBox"
+                Grid.Column="0"
+                Grid.Row="0"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+            />
+        </Grid>
 
         <!-- Sort Project List Dropdown -->
         <Grid
             Grid.Column="1"
             Grid.Row="0"
-            Margin="4"
+            Margin="2"
         >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" />
@@ -53,92 +61,19 @@
                 Content="Sort:"
             />
             <ComboBox
+                x:Name="sortSelector"
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
             />
         </Grid>
 
-        <!-- Project List -->
         <ListBox
+            x:Name="projectList"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Grid.Row="1"
-            ItemsSource="{Binding Path=MruProjects}"
-            HorizontalContentAlignment="Stretch"
-        >
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel
-                        Background="{StaticResource BackgroundBrush}"
-                        Margin="0"
-                    />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Grid
-                        x:Name="background"
-                        Height="68"
-                        Background="{StaticResource BackgroundLightBrush}"
-                    >
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="68" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <Image
-                            x:Name="projectImage"
-                            Grid.Column="0"
-                            Grid.Row="0"
-                            Grid.RowSpan="2"
-                            Margin="2"
-                            d:Source="S:\\Git\\Vesuv\\Vesuv.png"
-                        />
-
-                        <TextBlock
-                            x:Name="projectName"
-                            Grid.Column="1"
-                            Grid.Row="0"
-                            FontWeight="Bold"
-                            Margin="2"
-                            Text="{Binding ProjectName}"
-                        />
-
-                        <TextBlock
-                            x:Name="description"
-                            Grid.Column="1"
-                            Grid.ColumnSpan="2"
-                            Grid.Row="1"
-                            Margin="2"
-                            Text="{Binding ProjectDescription, Converter={StaticResource DefaultValue}, ConverterParameter=(No Description)}"
-                            TextWrapping="Wrap"
-                            TextTrimming="WordEllipsis"
-                        />
-
-                        <TextBlock
-                            x:Name="engineVersion"
-                            Grid.Column="2"
-                            Grid.Row="0"
-                            Margin="2"
-                            Text="{Binding EngineVersion, Converter={StaticResource Version2String}, ConverterParameter=Engine Version: Vesuv \{0\}}"
-                        />
-                    </Grid>
-
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding IsMissing}" Value="true">
-                            <Setter Property="Background" TargetName="background" Value="{StaticResource BackgroundMissingBrush}" />
-                            <Setter Property="Text" TargetName="description" Value="Missing project: path not found." />
-                            <Setter Property="Text" TargetName="engineVersion" Value="" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            Margin="2" d:ItemsSource="{d:SampleData ItemCount=5}"
+        />
 
         <!-- Button List -->
         <Grid
@@ -147,7 +82,7 @@
             Grid.RowSpan="2"
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
-            Margin="4"
+            Margin="2"
         >
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -166,19 +101,17 @@
                         <Setter Property="Margin" Value="0, 0, 0, 2" />
                     </Style>
                 </StackPanel.Resources>
-                <Button Content="New Project" Command="{Binding Path=NewProjectCommand}" />
-                <Button Content="Import" />
-                <Button Content="Scan" />
+                <Button Content="New Project" Command="{Binding NewProjectCommand}" />
+                <Button Content="Import" Command="{Binding ImportProjectCommand}" />
+                <Button Content="Scan" Command="{Binding ScanForProjectsCommand}" />
                 <Separator />
-                <Button Content="Edit" Command="{Binding Path=EditProjectCommand}" />
-                <Button Content="Run" />
-                <Button Content="Rename" />
-                <Button Content="Remove" />
-                <Button Content="Remove Missing" />
+                <Button Content="Edit" Command="{Binding EditProjectCommand}" />
+                <Button Content="Run" Command="{Binding RunProjectCommand}" />
+                <Button Content="Rename" Command="{Binding RenameProjectCommand}" />
+                <Button Content="Remove" Command="{Binding RemoveProjectCommand}" />
+                <Button Content="Remove Missing" Command="{Binding RemoveMissingProjectsCommand}" />
             </StackPanel>
-            <Button
-                Grid.Row="1"
-                Content="About" />
+            <Button Grid.Row="1" Content="About" Command="{Binding AboutCommand}" />
         </Grid>
     </Grid>
 </UserControl>

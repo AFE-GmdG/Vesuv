@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Navigation;
 
 using Vesuv.Editor;
+using Vesuv.Editor.ViewModel;
 using Vesuv.Themes;
 
 namespace Vesuv.Win32
@@ -18,6 +19,9 @@ namespace Vesuv.Win32
 
             // Evaluate config parameter
             var defaultProjectPath = GlobalConfig.Instance.DefaultProjectPath;
+            var author = GlobalConfig.Instance.Author;
+            var projects = GlobalConfig.Instance.MruProjects;
+            System.Diagnostics.Debug.WriteLine($"{defaultProjectPath}, {author}, {projects}");
 
             // Evaluate command line parameter
             if (e.Args.Length > 0) {

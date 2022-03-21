@@ -2,12 +2,11 @@
 
 using Vesuv.Editor;
 
-namespace Vesuv.Core.Project
+namespace Vesuv.Core._Project
 {
     public class InMemoryProject : IProject
     {
-        bool _isModified;
-
+        private bool _isModified;
         private DirectoryInfo? _projectDirectory;
 
         private string _name;

@@ -1,7 +1,6 @@
 ﻿using System.Globalization;
 using System.Windows.Data;
 
-
 namespace Vesuv.Editor.ValueConverters
 {
     internal class FormatValueConverter : IValueConverter

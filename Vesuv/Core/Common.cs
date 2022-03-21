@@ -19,6 +19,5 @@ namespace Vesuv.Core
                 throw new ApplicationException("No AssemblyFileVersionAttribute found.");
             }
         }
-
     }
 }
