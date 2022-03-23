@@ -5,17 +5,13 @@ using Vesuv.Core.Collections;
 using Vesuv.Core.Config;
 using Vesuv.Core._Project;
 using Vesuv.Win32;
+using Vesuv.Core;
 
 namespace Vesuv.Editor
 {
 
     public class GlobalConfig : ConfigBase
     {
-        private static readonly string _globalConfigFilePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                "Vesuv",
-                "Vesuv.ini");
-
         public static GlobalConfig Instance { get; } = new GlobalConfig();
 
         public string? GraphicDeviceName { get; set; }
@@ -28,7 +24,7 @@ namespace Vesuv.Editor
 #pragma warning disable CS8618 // All non nullable fields are initialized within methods called by the ctor. - Suppress this warning here.
         private GlobalConfig()
         {
-            if (!File.Exists(_globalConfigFilePath)) {
+            if (!File.Exists(Common.GlobalConfigFilePath)) {
                 LoadDefaultValues();
                 return;
             }
@@ -53,7 +49,7 @@ namespace Vesuv.Editor
 
         private void LoadGlobalConfig()
         {
-            var globalConfigFile = new IniFile(_globalConfigFilePath);
+            var globalConfigFile = new IniFile(Common.GlobalConfigFilePath);
 
             GraphicDeviceName = globalConfigFile.Read("GraphicDeviceName", "Video");
 
@@ -115,7 +111,7 @@ namespace Vesuv.Editor
                 return;
             }
 
-            if (!File.Exists(_globalConfigFilePath)) {
+            if (!File.Exists(Common.GlobalConfigFilePath)) {
                 LoadDefaultValues();
                 return;
             }
@@ -124,7 +120,7 @@ namespace Vesuv.Editor
 
         public override void SaveChanges()
         {
-            var globalConfigFile = new IniFile(_globalConfigFilePath);
+            var globalConfigFile = new IniFile(Common.GlobalConfigFilePath);
 
             if (GraphicDeviceName != null) {
                 globalConfigFile.Write("GraphicDeviceName", GraphicDeviceName, "Video");

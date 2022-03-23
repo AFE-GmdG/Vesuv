@@ -24,6 +24,16 @@
         Missing          = 0x80000000,
     }
 
+    public enum FileSystemState : UInt32
+    {
+        Created          = 0x00000000,
+        Initializing     = 0x00000001,
+        Ready            = 0x00000002,
+        Busy             = 0x00000003,
+        Offline          = 0x40000000,
+        Missing          = 0x80000000,
+    }
+
     public enum ResourceType : UInt32
     {
         Unknown,

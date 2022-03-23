@@ -11,6 +11,4 @@
             Reason = reason;
         }
     }
-
-    public delegate void FileChangedEventHandler(object? sender, FileChangedEventArgs args);
 }
