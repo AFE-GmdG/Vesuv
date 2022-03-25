@@ -1,15 +1,12 @@
-﻿using System.Diagnostics;
-
-using Vesuv.Core;
-using Vesuv.Core._Project;
+﻿using Vesuv.Core.IO;
 using Vesuv.Editor.Commands;
 
 namespace Vesuv.Editor.ViewModel
 {
     public class ProjectManagerViewModel : BaseViewModel
     {
-        private IProject? _selectedProject;
-        public IProject? SelectedProject {
+        private Project? _selectedProject;
+        public Project? SelectedProject {
             get => _selectedProject;
             set {
                 if (_selectedProject != value) {

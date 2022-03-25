@@ -4,7 +4,7 @@
     {
         private ResourceType _resourceType;
 
-        public IFileSystem FileSystem { get; init; }
+        public BaseFileSystem FileSystem { get; init; }
 
         public Scheme Scheme { get; init; }
 
@@ -27,7 +27,16 @@
 
         public FileState FileState { get; protected set; }
 
-        internal File(IFileSystem fileSystem, Scheme scheme, UInt64 rid, string path, string name, DateTime modificationTime, FileState fileState)
+        // TODO: Ask the FileSystem, if a file is readonly => Async?
+        public virtual bool IsReadonly => (FileSystem.FileSystemState & (FileSystemState.Offline | FileSystemState.Missing)) != 0UL;
+
+        // TODO: Ask the FileSystem, if this file is missing => Async?
+        public virtual bool IsMissing { get; protected set; }
+
+        // TODO: The file itself should know, if it was modified but not yet saved
+        public virtual bool IsModified {  get; protected set; }
+
+        internal File(BaseFileSystem fileSystem, Scheme scheme, UInt64 rid, string path, string name, DateTime modificationTime, FileState fileState)
         {
             FileSystem = fileSystem;
             Scheme = scheme;

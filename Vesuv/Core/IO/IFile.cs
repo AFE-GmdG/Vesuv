@@ -4,7 +4,7 @@ namespace Vesuv.Core.IO
 {
     public interface IFile
     {
-        IFileSystem FileSystem { get; init; }
+        BaseFileSystem FileSystem { get; init; }
 
         Scheme Scheme { get; init; }
         UInt64 RID { get; init; }
@@ -13,6 +13,10 @@ namespace Vesuv.Core.IO
         DateTime ModificationTime { get; }
         ResourceType ResourceType { get; set; }
         FileState FileState { get; }
+
+        bool IsReadonly { get; }
+        bool IsMissing { get; }
+        bool IsModified { get; }
 
         Task<IFile> CopyAsync(string name);
         Task<IFile> CopyAsync(string path, string name);

@@ -1,5 +1,4 @@
 ﻿using System.IO;
-using System.Text;
 
 namespace Vesuv.Core.IO
 {
@@ -17,26 +16,21 @@ namespace Vesuv.Core.IO
     ///   folder.
     ///   Files with the same path and name but with scheme User have precedence over Res scheme.
     /// </summary>
-    public class NativeFileSystem : IFileSystem
+    public class NativeFileSystem : BaseFileSystem
     {
         private readonly DirectoryInfo _resRoot;
         private readonly DirectoryInfo _userRoot;
-        public Dictionary<ulong, IFile> Files { get; init; }
-        public FileSystemState FileSystemState { get; private set; }
-
-        public ProjectFile ProjectFile { get; private init; }
-
-        public event EventHandler<FileChangedEventArgs>? FileChanged;
+        private FileSystemState _fileSystemState;
+        public override FileSystemState FileSystemState => _fileSystemState;
 
         private NativeFileSystem(DirectoryInfo resRoot, DirectoryInfo userRoot, FileInfo projectFileInfo)
         {
             _resRoot = resRoot;
             _userRoot = userRoot;
-            Files = new Dictionary<ulong, IFile>();
-            FileSystemState = FileSystemState.Created;
+            _fileSystemState = FileSystemState.Created;
 
-            ProjectFile = new ProjectFile(this, projectFileInfo.LastWriteTime);
-            Files.Add(ProjectFile.RID, ProjectFile);
+            var projectFile = new ProjectFile(this, projectFileInfo.LastWriteTime);
+            Files.Add(projectFile.RID, projectFile);
         }
 
         public static async Task<NativeFileSystem> InitializeNativeFileSystem(string resRootPath)
@@ -76,9 +70,24 @@ namespace Vesuv.Core.IO
             return nativeFileSystem;
         }
 
-        public Task<IFile> CreateNewFileAsync(Scheme scheme, string path, string name, ResourceType resourceType)
+        public override Task<IFile> CreateNewFileAsync(Scheme scheme, string path, string name, ResourceType resourceType)
         {
             throw new NotImplementedException();
+        }
+
+        public override bool Equals(BaseFileSystem? other)
+        {
+            if (other == null) {
+                return false;
+            }
+            if (ReferenceEquals(this, other)) {
+                return true;
+            }
+            if (other is not NativeFileSystem otherNativeFileSystem) {
+                return false;
+            }
+
+            return _resRoot.FullName.Equals(otherNativeFileSystem._resRoot.FullName, StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

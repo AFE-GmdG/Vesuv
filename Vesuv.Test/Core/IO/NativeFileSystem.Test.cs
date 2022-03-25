@@ -27,11 +27,8 @@ namespace Vesuv.Core.IO
         [InlineData(@"S:\Work\Vesuv\No project in this folder")]
         public async Task OpenNonExistingNativeFileSystem(string resRootPath)
         {
-            // Prepare actual object
-            var fs = await NativeFileSystem.InitializeNativeFileSystem(resRootPath);
-
             // Do the tests
-            Assert.NotNull(fs);
+            await Assert.ThrowsAsync<DirectoryNotFoundException>(() => NativeFileSystem.InitializeNativeFileSystem(resRootPath));
         }
     }
 }
