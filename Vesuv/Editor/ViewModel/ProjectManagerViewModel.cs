@@ -1,4 +1,6 @@
-﻿using Vesuv.Core.IO;
+﻿using System.Collections.ObjectModel;
+
+using Vesuv.Core.IO;
 using Vesuv.Editor.Commands;
 
 namespace Vesuv.Editor.ViewModel
@@ -16,6 +18,8 @@ namespace Vesuv.Editor.ViewModel
             }
         }
 
+        public ObservableCollection<Project> LocalProjects { get; init; }
+
         public DelegateCommand NewProjectCommand { get; private init; }
         public DelegateCommand ImportProjectCommand { get; private init; }
         public DelegateCommand ScanForProjectsCommand { get; private init; }
@@ -31,8 +35,16 @@ namespace Vesuv.Editor.ViewModel
 
         public ProjectManagerViewModel()
         {
+            LocalProjects = new ObservableCollection<Project>();
+
+            if (IsDesignTime) {
+                LocalProjects.Add(Project.CreateNewProject("Testproject #1"));
+                LocalProjects.Add(Project.CreateNewProject("Testproject #2"));
+                LocalProjects.Add(Project.CreateNewProject("Another Project"));
+            }
+
             NewProjectCommand = new DelegateCommand(OnNewProject);
-            ImportProjectCommand = new DelegateCommand(OnImportProject);
+            ImportProjectCommand = new DelegateCommand(CanImportProject, OnImportProject);
             ScanForProjectsCommand = new DelegateCommand(OnScanForProjects);
 
             EditProjectCommand = new DelegateCommand(IsProjectSelected, OnEditProject);
@@ -41,6 +53,19 @@ namespace Vesuv.Editor.ViewModel
             RemoveProjectCommand = new DelegateCommand(IsProjectSelected, OnRemoveProject);
             RemoveMissingProjectsCommand = new DelegateCommand(OnRemoveMissingProjects);
             AboutCommand = new DelegateCommand(OnAbout);
+        }
+
+        public async Task InitializeProjects()
+        {
+            var OpenProjectTasks = new List<Task<Project>>();
+            foreach (var projectPath in GlobalConfig.Instance.MruProjects) {
+                OpenProjectTasks.Add(Project.OpenProject(projectPath));
+            }
+            var projects = await Task.WhenAll(OpenProjectTasks);
+            LocalProjects.Clear();
+            foreach (var project in projects) {
+                LocalProjects.Add(project);
+            }
         }
 
         private bool IsProjectSelected(object? obj)
@@ -52,6 +77,11 @@ namespace Vesuv.Editor.ViewModel
         {
             SelectedProject = null;
             NewProject?.Invoke(this, new EventArgs());
+        }
+
+        private bool CanImportProject(object? _)
+        {
+            return false;
         }
 
         private void OnImportProject(object? _) => throw new NotImplementedException();

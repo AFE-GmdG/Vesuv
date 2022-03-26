@@ -16,6 +16,7 @@ namespace Vesuv.Core.IO
         public static async Task<Project> OpenProject(string projectPath)
         {
             try {
+                await Task.Delay(3000);
                 var fileSystem = await NativeFileSystem.InitializeNativeFileSystem(projectPath);
                 return new Project(fileSystem);
             } catch (DirectoryNotFoundException) {

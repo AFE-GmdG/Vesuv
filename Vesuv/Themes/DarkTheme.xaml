@@ -10,6 +10,7 @@
     <SolidColorBrush x:Key="BackgroundMissingBrush" Color="#45212a" />
     <SolidColorBrush x:Key="BackgroundWarningBrush" Color="#ff9800" />
     <SolidColorBrush x:Key="BackgroundErrorBrush" Color="#f44336" />
+    <SolidColorBrush x:Key="BackgroundFadeBrush" Color="#7f000000" />
 
     <SolidColorBrush x:Key="ForegroundBrush" Color="#c9cbcf" />
     <SolidColorBrush x:Key="ForegroundLightBrush" Color="#d7d8db" />
