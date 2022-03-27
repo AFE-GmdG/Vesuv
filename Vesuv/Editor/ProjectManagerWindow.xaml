@@ -28,7 +28,6 @@
     <Grid>
         <TabControl
             Grid.RowSpan="2"
-            ItemContainerStyle="{DynamicResource TCItemContainerStyle}"
             Margin="8,8,8,8"
         >
             <TabItem Header="Local Projects">

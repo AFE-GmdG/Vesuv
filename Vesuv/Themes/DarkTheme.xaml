@@ -6,6 +6,7 @@
     <SolidColorBrush x:Key="BackgroundBrush" Color="#20252d" />
     <SolidColorBrush x:Key="BackgroundLightBrush" Color="#2a323c" />
     <SolidColorBrush x:Key="BackgroundHighlightBrush" Color="#353e4b" />
+    <SolidColorBrush x:Key="BackgroundSelectionBrush" Color="#d2d8df" />
     <SolidColorBrush x:Key="BackgroundDisabledBrush" Color="#15191e" />
     <SolidColorBrush x:Key="BackgroundMissingBrush" Color="#45212a" />
     <SolidColorBrush x:Key="BackgroundWarningBrush" Color="#ff9800" />

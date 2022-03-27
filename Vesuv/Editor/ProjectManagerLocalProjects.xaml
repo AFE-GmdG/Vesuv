@@ -10,6 +10,7 @@
     mc:Ignorable="d"
     d:DesignWidth="800"
     d:DesignHeight="450"
+    d:Background="{StaticResource BackgroundLightBrush}"
     Loaded="ProjectManagerLocalProjects_Loaded"
 >
     <UserControl.Resources>
@@ -48,13 +49,13 @@
                 Grid.Column="0"
                 Grid.Row="0"
                 HorizontalAlignment="Stretch"
-                VerticalAlignment="Stretch"
+                VerticalAlignment="Top"
                 TextChanged="OnFilterTextChanged"
             />
         </Grid>
 
         <!-- Sort Project List Dropdown -->
-        <Grid
+        <!--<Grid
             Grid.Column="1"
             Grid.Row="0"
             Margin="2"
@@ -72,14 +73,14 @@
                 Grid.Column="1"
                 HorizontalAlignment="Stretch"
             />
-        </Grid>
+        </Grid>-->
 
         <ListBox
             x:Name="projectList"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             Grid.Row="1"
-            Margin="2"
+            Margin="2,0,2,2"
             ItemsSource="{Binding LocalProjects}"
             SelectedItem="{Binding SelectedProject}"
         />
@@ -133,6 +134,7 @@
             Diameter="60"
             Thickness="5"
             IsLoading="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type e:ProjectManagerLocalProjects}}, Path=IsBusy}"
+            d:IsLocked="True"
         />
     </Grid>
 </UserControl>
